@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
+const toast = useToast();
 const email = ref("");
 const password = ref("");
 const data = ref("");
@@ -15,78 +16,70 @@ function setPassword(newPassword) {
 
 async function fetchData() {
   try {
-    const response = await fetch('http://localhost:8080/login', {
-      method: 'GET', // or 'POST', 'PUT', etc.
+    const response = await fetch("http://localhost:8080/login", {
+      method: "POST",
+      body: null,
       headers: {
-        'Content-Type': 'application/json',
-        'x-email': email.value,
-        'x-password': password.value,
+        "Content-Type": "application/json",
+        "X-Email": email.value,
+        "X-Password": password.value,
       },
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error("Network response was not ok");
     }
 
-    const result = await response.json();
+    const result = await response.text();
+    console.log(result);
     data.value = result;
-    console.log(data.value);
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
+    data.value = "Failed to connect to api";
   }
 }
 
 async function handleLogin(e) {
   e.preventDefault();
-  console.log(email.value);
-  console.log(password.value);
   await fetchData();
+  email.value = "";
+  password.value = "";
+  toast.add({ title: data.value });
 }
-
 </script>
 
 <template>
-  <div
-    v-bind:style="{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      width: '30%',
-      margin: '8rem auto',
-    }"
-  >
-    <h1 v-bind:style="{ margin: 'auto', marginBottom: '2rem' }">LOGIN</h1>
-    <form
-      action=""
-      v-bind:style="{ display: 'flex', flexDirection: 'column', gap: '2rem' }"
-      @submit="handleLogin"
+  <div class="bg-sky-300 h-screen flex items-center justify-center">
+    <div
+      class="flex flex-col justify-center items-center w-3/10 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl"
     >
-      <input
-        type="email"
-        placeholder="Enter your email"
-        required="true"
-        v-bind:style="{ padding: '10px 12px', fontSize: '1.25rem' }"
-        v-model="email"
-      />
-      <input
-        type="password"
-        placeholder="Enter your password"
-        required="true"
-        v-bind:style="{
-          padding: '10px 12px',
-          fontSize: '1.25rem',
-        }"
-        v-model="password"
-      />
-      <button
-        type="submit"
-        v-bind:style="{
-          padding: '10px 12px',
-          fontSize: '1.25rem',
-        }"
-      >
-        Log In
-      </button>
-    </form>
+      <h1 class="text-center text-3xl text-slate-800">Login</h1>
+      <form action="" @submit="handleLogin" class="flex flex-col gap-12">
+        <input
+          type="email"
+          placeholder="Enter your email"
+          required="true"
+          v-model="email"
+          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
+        />
+        <input
+          type="password"
+          placeholder="Enter your password"
+          required="true"
+          v-model="password"
+          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
+        />
+        <button
+          type="submit"
+          class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300"
+        >
+          Login
+        </button>
+      </form>
+      <p class="text-xl text-slate-800">
+        Don't have an account?
+        <a href="/signup" class="text-sky-500 hover:underline">Signup</a>
+      </p>
+    </div>
   </div>
 </template>
