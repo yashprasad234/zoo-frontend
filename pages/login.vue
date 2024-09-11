@@ -30,6 +30,8 @@ async function fetchData() {
       throw new Error("Network response was not ok");
     }
 
+    console.log(response);
+
     const result = await response.text();
     console.log(result);
     data.value = result;
