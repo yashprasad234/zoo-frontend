@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
-// import CustomInput from "../components/CustomInput.vue";
+
+const router = useRouter();
 
 const toast = useToast();
 const email = ref("");
@@ -17,9 +18,7 @@ function setPassword(newPassword) {
 
 async function fetchData() {
   try {
-    console.log(email.value);
-    console.log(password.value);
-    const response = await fetch("http://localhost:8080/login", {
+    const response = await fetch("http://localhost:8080/user/login", {
       method: "POST",
       body: null,
       headers: {
@@ -36,8 +35,9 @@ async function fetchData() {
     console.log(response);
 
     const result = await response.text();
-    console.log(result);
-    data.value = result;
+    localStorage.setItem("user-token", JSON.parse(result).token);
+    router.push("/dashboard");
+    data.value = "Logged in!";
   } catch (error) {
     console.error("Error fetching data:", error);
     data.value = "Failed to connect to api";
@@ -64,14 +64,14 @@ async function handleLogin(e) {
           type="email"
           placeholder="Enter your email"
           required="true"
-          :v-model="email"
+          v-model="email"
           class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
         <input
           type="password"
           placeholder="Enter your password"
           required="true"
-          :v-model="password"
+          v-model="password"
           class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
         <button

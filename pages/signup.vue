@@ -1,11 +1,23 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import CustomInput from "~/components/CustomInput.vue";
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const data = ref("");
+const router = useRouter();
+
+function setEmail(newEmail) {
+  email.value = newEmail;
+}
+
+function setPassword(newPassword) {
+  password.value = newPassword;
+}
+
+function setConfirmPassword(newPassword) {
+  confirmPassword.value = newPassword;
+}
 
 async function fetchData() {
   try {
@@ -16,7 +28,7 @@ async function fetchData() {
           "Content-Type": "application/json", // Set the content type to JSON
         },
         body: JSON.stringify({
-          email: email.value,
+          username: email.value,
           password: password.value,
         }),
       });
@@ -26,6 +38,7 @@ async function fetchData() {
       }
 
       const result = await response.text();
+      router.push("/login");
       console.log(result);
       data.value = result;
     } else data.value = "Password and Confirm Password Don't match";
@@ -52,25 +65,25 @@ async function handleSignup(e) {
     >
       <h1 class="text-center text-3xl text-slate-800">Signup</h1>
       <form action="" @submit="handleSignup" class="flex flex-col gap-6">
-        <CustomInput
+        <input
           type="email"
           placeholder="Enter your email"
-          :required="true"
-          :value="email"
+          required="true"
+          v-model="email"
           class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
-        <CustomInput
+        <input
           type="password"
           placeholder="Enter your password"
-          :required="true"
-          :value="password"
+          required="true"
+          v-model="password"
           class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
-        <CustomInput
+        <input
           type="password"
           placeholder="Confirm password"
-          :required="true"
-          :value="confirmPassword"
+          required="true"
+          v-model="confirmPassword"
           class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
         <button
