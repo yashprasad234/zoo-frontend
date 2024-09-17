@@ -20,6 +20,7 @@ async function fetchMe() {
     userState.setUserState(false, user);
   } catch (err) {
     console.error(err);
+    router.push("/login");
   }
 }
 
