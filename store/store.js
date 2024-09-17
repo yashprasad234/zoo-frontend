@@ -3,7 +3,8 @@ import { reactive } from "vue";
 export const userState = reactive({
   isLoading: true,
   user: null,
-  setUser(user) {
+  setUserState(isLoading, user) {
+    this.isLoading = isLoading;
     this.user = user;
   },
 });
