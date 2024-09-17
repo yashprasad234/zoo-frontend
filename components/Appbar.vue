@@ -2,25 +2,28 @@
 const router = useRouter();
 import { userState } from "~/store/store";
 async function fetchMe() {
-  try {
-    const res = await fetch("http://localhost:8080/user/me", {
-      method: "GET",
-      body: null,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-      },
-    });
+  if (!userState.isLoading && userState.user != null) return;
+  else {
+    try {
+      const res = await fetch("http://localhost:8080/user/me", {
+        method: "GET",
+        body: null,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+        },
+      });
 
-    if (!res.ok) {
-      throw new Error("Network response was not ok");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const dataString = await res.text();
+      const user = JSON.parse(dataString);
+      userState.setUserState(false, user);
+    } catch (err) {
+      console.error(err);
+      router.push("/login");
     }
-    const dataString = await res.text();
-    const user = JSON.parse(dataString);
-    userState.setUserState(false, user);
-  } catch (err) {
-    console.error(err);
-    router.push("/login");
   }
 }
 
@@ -43,17 +46,22 @@ onMounted(() => {
         <li
           class="px-4 py-2 hover:bg-sky-300 hover:text-neutral-100 cursor-pointer"
         >
-          <a class="p-0" href="/">Home</a>
+          <button class="" @click="router.push('/')">Home</button>
         </li>
         <li
           class="px-4 py-2 hover:bg-sky-300 hover:text-neutral-100 cursor-pointer"
         >
-          <a class="p-0" href="/about">About</a>
+          <button class="" @click="router.push('/dashboard')">Dashboard</button>
         </li>
         <li
           class="px-4 py-2 hover:bg-sky-300 hover:text-neutral-100 cursor-pointer"
         >
-          <a class="p-0" href="/users">Users</a>
+          <button class="" @click="router.push('/about')">About</button>
+        </li>
+        <li
+          class="px-4 py-2 hover:bg-sky-300 hover:text-neutral-100 cursor-pointer"
+        >
+          <button class="" @click="router.push('/users')">Users</button>
         </li>
       </ul>
       <button class="bg-sky-300 px-4 py-2 text-neutral-100" @click="logout">
