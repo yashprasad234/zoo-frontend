@@ -1,5 +1,9 @@
+<script setup>
+// import { ref } from "vue";
+</script>
+
 <template>
-    <section>
-      <p>This page will be displayed at the /about route.</p>
-    </section>
+  <div class="p-4">
+    <h1 class="text-5xl">ABOUT</h1>
+  </div>
 </template>

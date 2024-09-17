@@ -1,23 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import CustomInput from "~/components/CustomInput.vue";
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const data = ref("");
 const router = useRouter();
-
-function setEmail(newEmail) {
-  email.value = newEmail;
-}
-
-function setPassword(newPassword) {
-  password.value = newPassword;
-}
-
-function setConfirmPassword(newPassword) {
-  confirmPassword.value = newPassword;
-}
 
 async function fetchData() {
   try {
@@ -65,26 +54,23 @@ async function handleSignup(e) {
     >
       <h1 class="text-center text-3xl text-slate-800">Signup</h1>
       <form action="" @submit="handleSignup" class="flex flex-col gap-6">
-        <input
+        <CustomInput
           type="email"
           placeholder="Enter your email"
-          required="true"
+          :required="true"
           v-model="email"
-          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
-        <input
+        <CustomInput
           type="password"
           placeholder="Enter your password"
-          required="true"
+          :required="true"
           v-model="password"
-          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
-        <input
+        <CustomInput
           type="password"
           placeholder="Confirm password"
-          required="true"
+          :required="true"
           v-model="confirmPassword"
-          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
         <button
           type="submit"

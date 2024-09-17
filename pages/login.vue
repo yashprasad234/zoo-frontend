@@ -1,20 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
-
-const router = useRouter();
+import CustomInput from "~/components/CustomInput.vue";
+import { userState } from "~/store/store";
 
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const data = ref("");
-
-function setEmail(newEmail) {
-  email.value = newEmail;
-}
-
-function setPassword(newPassword) {
-  password.value = newPassword;
-}
 
 async function fetchData() {
   try {
@@ -36,7 +28,7 @@ async function fetchData() {
 
     const result = await response.text();
     localStorage.setItem("user-token", JSON.parse(result).token);
-    router.push("/dashboard");
+    window.location.href = "/dashboard";
     data.value = "Logged in!";
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -60,19 +52,17 @@ async function handleLogin(e) {
     >
       <h1 class="text-center text-3xl text-slate-800">Login</h1>
       <form action="" @submit="handleLogin" class="flex flex-col gap-12">
-        <input
+        <CustomInput
           type="email"
           placeholder="Enter your email"
-          required="true"
+          :required="true"
           v-model="email"
-          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
-        <input
+        <CustomInput
           type="password"
           placeholder="Enter your password"
-          required="true"
+          :required="true"
           v-model="password"
-          class="px-4 py-2 text-xl border-b-2 border-slate-500 focus:outline-none bg-white text-slate-800"
         />
         <button
           type="submit"
