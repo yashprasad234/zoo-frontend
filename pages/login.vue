@@ -1,12 +1,15 @@
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup="ts">
+import { ref } from "vue";
 import CustomInput from "~/components/CustomInput.vue";
-import { useUserStore } from "~/store/user";
+import { useUserStore } from "~/store/user.ts";
+import { userMenu, adminMenu, superAdminMenu } from "~/data/menu";
+import { useMenuStore } from "~/store/menu";
 
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const data = ref("");
+const menuState = useMenuStore();
 
 const userState = useUserStore();
 
@@ -28,13 +31,21 @@ async function fetchData() {
       throw new Error("Network response was not ok");
     }
 
-    console.log(response);
-
     const result = await response.json();
-    console.log(result);
     localStorage.setItem("user-token", result.token);
-    // userState.$patch({ isLoading: false, user: result.userDetails });
-    window.location.href = "/dashboard";
+    userState.$patch({ isLoading: false, user: result.userDetails });
+
+    if (userState.user.role == "USER") {
+      menuState.$patch({ menu: userMenu });
+    }
+    if (userState.user.role == "ADMIN") {
+      menuState.$patch({ menu: adminMenu });
+    }
+    if (userState.user.role == "SUPERADMIN") {
+      menuState.$patch({ menu: superAdminMenu });
+    }
+
+    navigateTo(`/${userState.user.role.toLowerCase()}/dashboard`);
     data.value = "Logged in!";
   } catch (error) {
     userState.notFound();

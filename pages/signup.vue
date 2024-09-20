@@ -1,5 +1,5 @@
-<script setup>
-import { ref, onMounted } from "vue";
+<script setup="ts">
+import { ref } from "vue";
 import CustomInput from "~/components/CustomInput.vue";
 const toast = useToast();
 const email = ref("");
@@ -48,7 +48,7 @@ async function handleSignup(e) {
 </script>
 
 <template>
-  <!-- <div class="bg-sky-300 h-screen flex items-center justify-center">
+  <div class="bg-sky-300 h-screen flex items-center justify-center">
     <div
       class="flex flex-col justify-center items-center w-3/10 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl"
     >
@@ -84,6 +84,5 @@ async function handleSignup(e) {
         <a href="/login" class="text-sky-500 hover:underline">Login</a>
       </p>
     </div>
-  </div> -->
-  <div>Signup</div>
+  </div>
 </template>

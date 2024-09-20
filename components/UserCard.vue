@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 const props = defineProps({
   username: String,
   id: Number,

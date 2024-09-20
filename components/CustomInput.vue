@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 const props = defineProps({
   type: String,
   modelValue: String,

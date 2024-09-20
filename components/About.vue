@@ -1,8 +1,7 @@
-<script setup>
+<script setup="ts">
 import { useUserStore } from "~/store/user";
 
 const userState = useUserStore();
-console.log(userState.user);
 </script>
 
 <template>
