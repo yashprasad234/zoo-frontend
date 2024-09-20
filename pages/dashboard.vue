@@ -1,10 +1,16 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { userState } from "~/store/store";
+import { useUserStore } from "~/store/user";
+
+const userState = useUserStore();
+console.log(userState.user);
 </script>
 
 <template>
-  <div class="flex justify-between px-12 py-8">
+  <div>dashboard</div>
+  <!-- <div
+    v-if="!userState.isLoading && userState.user != null"
+    class="flex justify-between px-12 py-8"
+  >
     <h1>Dashboard for {{ userState.user?.username }}</h1>
-  </div>
+  </div> -->
 </template>

@@ -1,5 +1,8 @@
 <script setup>
-// import { ref } from "vue";
+import { useUserStore } from "~/store/user";
+
+const userState = useUserStore();
+console.log(userState.user);
 </script>
 
 <template>

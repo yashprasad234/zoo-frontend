@@ -1,22 +1,26 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import CustomInput from "~/components/CustomInput.vue";
-import { userState } from "~/store/store";
+import { useUserStore } from "~/store/user";
 
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const data = ref("");
 
+const userState = useUserStore();
+
 async function fetchData() {
   try {
+    userState.loading();
     const response = await fetch("http://localhost:8080/user/login", {
       method: "POST",
-      body: null,
+      body: JSON.stringify({
+        username: email.value,
+        password: password.value,
+      }),
       headers: {
         "Content-Type": "application/json",
-        "X-Email": email.value,
-        "X-Password": password.value,
       },
     });
 
@@ -26,11 +30,14 @@ async function fetchData() {
 
     console.log(response);
 
-    const result = await response.text();
-    localStorage.setItem("user-token", JSON.parse(result).token);
+    const result = await response.json();
+    console.log(result);
+    localStorage.setItem("user-token", result.token);
+    // userState.$patch({ isLoading: false, user: result.userDetails });
     window.location.href = "/dashboard";
     data.value = "Logged in!";
   } catch (error) {
+    userState.notFound();
     console.error("Error fetching data:", error);
     data.value = "Failed to connect to api";
   }

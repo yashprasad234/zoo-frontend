@@ -14,7 +14,7 @@ async function fetchData() {
       const response = await fetch("http://localhost:8080/signup", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: email.value,
@@ -48,7 +48,7 @@ async function handleSignup(e) {
 </script>
 
 <template>
-  <div class="bg-sky-300 h-screen flex items-center justify-center">
+  <!-- <div class="bg-sky-300 h-screen flex items-center justify-center">
     <div
       class="flex flex-col justify-center items-center w-3/10 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl"
     >
@@ -84,5 +84,6 @@ async function handleSignup(e) {
         <a href="/login" class="text-sky-500 hover:underline">Login</a>
       </p>
     </div>
-  </div>
+  </div> -->
+  <div>Signup</div>
 </template>

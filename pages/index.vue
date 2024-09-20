@@ -1,9 +1,12 @@
 <script setup>
-import { userState } from "~/store/store";
+import { useUserStore } from "~/store/user";
+
+const userState = useUserStore();
+console.log(userState.user);
 </script>
 
 <template>
-  <div
+  <!-- <div
     v-if="userState.isLoading"
     class="flex flex-col justify-center items-center gap-8"
   >
@@ -21,5 +24,6 @@ import { userState } from "~/store/store";
     <h1 class="text-3xl text-center">
       Welcome back {{ userState.user.username }}
     </h1>
-  </div>
+  </div> -->
+  <div>home</div>
 </template>
