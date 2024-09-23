@@ -16,7 +16,7 @@ const userState = useUserStore();
 async function fetchData() {
   try {
     userState.loading();
-    const response = await fetch("http://localhost:8080/user/login", {
+    const response = await fetch("http://localhost:8080/login", {
       method: "POST",
       body: JSON.stringify({
         username: email.value,
@@ -27,11 +27,13 @@ async function fetchData() {
       },
     });
 
+    const result = await response.json();
+
+    console.log(result);
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(result.message);
     }
 
-    const result = await response.json();
     localStorage.setItem("user-token", result.token);
     userState.$patch({ isLoading: false, user: result.userDetails });
 
@@ -48,9 +50,9 @@ async function fetchData() {
     navigateTo(`/${userState.user.role.toLowerCase()}/dashboard`);
     data.value = "Logged in!";
   } catch (error) {
+    console.error(error);
     userState.notFound();
-    console.error("Error fetching data:", error);
-    data.value = "Failed to connect to api";
+    data.value = error;
   }
 }
 
@@ -64,12 +66,13 @@ async function handleLogin(e) {
 </script>
 
 <template>
-  <div class="bg-sky-300 h-screen flex items-center justify-center">
+  <div class="bg-sky-300 h-screen flex justify-center">
     <div
-      class="flex flex-col justify-center items-center w-3/10 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl"
+      class="flex flex-col justify-center items-center w-1/3 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl mt-4"
     >
-      <h1 class="text-center text-3xl text-slate-800">Login</h1>
-      <form action="" @submit="handleLogin" class="flex flex-col gap-12">
+      <h1 class="text-3xl text-slate-800">Login</h1>
+
+      <form action="" @submit="handleLogin" class="flex flex-col gap-12 -mb-4">
         <CustomInput
           type="email"
           placeholder="Enter your email"
@@ -91,8 +94,19 @@ async function handleLogin(e) {
       </form>
       <p class="text-xl text-slate-800">
         Don't have an account?
-        <a href="/signup" class="text-sky-500 hover:underline">Signup</a>
+        <span
+          @click="navigateTo('/signup')"
+          class="text-sky-500 hover:underline cursor-pointer"
+          >Signup</span
+        >
       </p>
+      <button
+        type="submit"
+        class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300 -mt-6 -mb-12"
+        @click="navigateTo('/forgotPassword')"
+      >
+        Forgot Password
+      </button>
     </div>
   </div>
 </template>

@@ -27,17 +27,5 @@ export const useUserStore = defineStore("user", {
         return true; // If decoding fails, treat the token as expired
       }
     },
-    login(token: string) {
-      if (this.isTokenExpired(token)) {
-        this.notFound(); // Or another method to handle logout
-        // Redirect to login or handle expired session logic
-        // For example, use the router to navigate
-        // this.$router.push('/login'); (This is an example; use router from context)
-      } else {
-        localStorage.setItem("user-token", token);
-        // Optionally, fetch user data and set it to state
-        // this.fetchUser(token); (Implement fetchUser method as needed)
-      }
-    },
   },
 });

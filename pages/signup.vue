@@ -13,27 +13,28 @@ async function fetchData() {
     if (password.value == confirmPassword.value) {
       const response = await fetch("http://localhost:8080/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           username: email.value,
           password: password.value,
         }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(result.message);
       }
 
-      const result = await response.text();
-      router.push("/login");
+      navigateTo("/login");
       console.log(result);
-      data.value = result;
+      data.value = "User created successfully";
     } else data.value = "Password and Confirm Password Don't match";
   } catch (error) {
-    console.error("Error fetching data:", error);
-    data.value = "Failed to connect to api";
+    console.error(error);
+    data.value = error;
   }
 }
 
@@ -48,9 +49,9 @@ async function handleSignup(e) {
 </script>
 
 <template>
-  <div class="bg-sky-300 h-screen flex items-center justify-center">
+  <div class="bg-sky-300 h-screen flex justify-center">
     <div
-      class="flex flex-col justify-center items-center w-3/10 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl"
+      class="flex flex-col justify-center items-center w-1/3 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl mt-8"
     >
       <h1 class="text-center text-3xl text-slate-800">Signup</h1>
       <form action="" @submit="handleSignup" class="flex flex-col gap-6">
@@ -81,7 +82,11 @@ async function handleSignup(e) {
       </form>
       <p class="text-xl text-slate-800">
         Already have an account?
-        <a href="/login" class="text-sky-500 hover:underline">Login</a>
+        <span
+          @click="navigateTo('/login')"
+          class="text-sky-500 hover:underline cursor-pointer"
+          >Login</span
+        >
       </p>
     </div>
   </div>
