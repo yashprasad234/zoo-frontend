@@ -1,8 +1,5 @@
 import type { UseFetchOptions } from "nuxt/app";
 
-/**
- * This useCustomFetch function is used
- */
 export function useCustomFetch<T>(
   url: string,
   options: UseFetchOptions<T> = {}

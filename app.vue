@@ -9,7 +9,12 @@ const route = useRoute();
 
 const checkLocalStorage = () => {
   const token = localStorage.getItem("user-token");
-  const openRoutes = ["/signup", "/forgotPassword", "/forgotPassword/change"];
+  const openRoutes = [
+    "/signup",
+    "/forgotPassword",
+    "/forgotPassword/change",
+    "/",
+  ];
   if (!token && !openRoutes.includes(route.path)) {
     userStore.notFound();
     navigateTo("/login");
