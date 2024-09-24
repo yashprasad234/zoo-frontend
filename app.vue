@@ -11,8 +11,6 @@ const checkLocalStorage = () => {
   const token = localStorage.getItem("user-token");
   const openRoutes = ["/signup", "/forgotPassword", "/forgotPassword/change"];
   if (!token && !openRoutes.includes(route.path)) {
-    // If token is missing, trigger a logout
-    console.log("Rerouting from " + route.path);
     userStore.notFound();
     navigateTo("/login");
   }

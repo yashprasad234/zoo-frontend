@@ -2,6 +2,7 @@
 import { useUserStore } from "~/store/user.ts";
 import { useMenuStore } from "~/store/menu";
 import MenuButton from "./MenuButton.vue";
+import { userMenu, adminMenu, superAdminMenu } from "~/data/menu";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
@@ -11,26 +12,25 @@ async function fetchMe() {
     return;
   } else {
     try {
-      userState.loading();
-      const res = await fetch("http://localhost:8080/user/me", {
+      const res = await useCustomFetch(`/me`, {
         method: "GET",
-        body: null,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-        },
+      });
+      userState.$patch({
+        isLoading: false,
+        user: res,
       });
 
-      if (!res.ok) {
-        console.log("res not ok");
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      console.log(data);
-      userState.$patch({ isLoading: false, user: data });
+      const menu =
+        userState.user?.role === "USER"
+          ? userMenu
+          : userState.user?.role === "ADMIN"
+          ? adminMenu
+          : superAdminMenu || null;
+
+      menuState.$patch({ menu: menu });
     } catch (err) {
-      console.log(err);
-      userState.notFound();
+      console.log(err.response);
+      console.log(err.response._data.message);
     }
   }
 }

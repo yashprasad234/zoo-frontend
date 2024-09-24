@@ -2,28 +2,30 @@
 import CustomInput from "~/components/CustomInput.vue";
 import { ref } from "vue";
 
+const toast = useToast();
 const email = ref("");
+const message = ref("");
 
 const fetchForgetPassword = async () => {
   try {
-    const response = await fetch("http://localhost:8080/user/forgotpassword", {
+    const res = await useCustomFetch("/forgotpassword", {
       method: "GET",
-      body: null,
       headers: {
-        "Content-Type": "Application/JSON",
         "X-Email": email.value,
       },
     });
-    const resData = await response.text();
-    console.log(resData);
-  } catch (error) {
-    console.error(error);
+    message.value = "User found in DB";
+    console.log(response);
+  } catch (err) {
+    console.log(err.response);
+    message.value = err.response._data.message;
   }
 };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
   await fetchForgetPassword();
+  toast.add({ title: message.value });
 };
 </script>
 

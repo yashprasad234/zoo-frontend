@@ -1,0 +1,21 @@
+import type { UseFetchOptions } from "nuxt/app";
+
+/**
+ * This useCustomFetch function is used
+ */
+export function useCustomFetch<T>(
+  url: string,
+  options: UseFetchOptions<T> = {}
+) {
+  const defaults: UseFetchOptions<T> = {
+    baseURL: "http://localhost:8080",
+    headers: localStorage.getItem("user-token")
+      ? {
+          Authorization: `Bearer ${localStorage.getItem("user-token")}}`,
+        }
+      : {},
+  };
+  let mergedOptions = {};
+  mergedOptions = { ...defaults, ...options };
+  return $fetch(url, mergedOptions);
+}

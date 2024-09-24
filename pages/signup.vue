@@ -1,17 +1,20 @@
 <script setup="ts">
 import { ref } from "vue";
+import { useCustomFetch } from "~/composables/useCustomFetch";
 import CustomInput from "~/components/CustomInput.vue";
+
 const toast = useToast();
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
-const data = ref("");
-const router = useRouter();
+const message = ref("");
 
 async function fetchData() {
-  try {
-    if (password.value == confirmPassword.value) {
-      const response = await fetch("http://localhost:8080/signup", {
+  if (password.value != confirmPassword.value) {
+    message.value = "Password and Confirm Password Don't match";
+  } else {
+    try {
+      const res = useCustomFetch("/signup", {
         method: "POST",
         body: JSON.stringify({
           username: email.value,
@@ -21,20 +24,13 @@ async function fetchData() {
           "Content-Type": "application/json",
         },
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message);
-      }
-
-      navigateTo("/login");
-      console.log(result);
-      data.value = "User created successfully";
-    } else data.value = "Password and Confirm Password Don't match";
-  } catch (error) {
-    console.error(error);
-    data.value = error;
+      console.log(res);
+      message.value = "User created successfully";
+      navigateTo(`/login`);
+    } catch (err) {
+      console.log(err.response);
+      message.value = err.value.data.message;
+    }
   }
 }
 
@@ -44,7 +40,7 @@ async function handleSignup(e) {
   email.value = "";
   password.value = "";
   confirmPassword.value = "";
-  toast.add({ title: data.value });
+  toast.add({ title: message.value });
 }
 </script>
 

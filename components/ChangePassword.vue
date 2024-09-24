@@ -2,32 +2,30 @@
 import { ref } from "vue";
 import CustomInput from "./CustomInput.vue";
 
-const route = useRoute();
 const password = ref("");
 const confirmPassword = ref("");
+const message = ref("");
+const route = useRoute();
+const toast = useToast();
 
 const updatePassword = async () => {
   try {
-    if (password.value == confirmPassword.value) {
-      const res = await fetch("http://localhost:8080/changePassword", {
-        method: "PUT",
-        body: JSON.stringify({
-          password: password.value,
-        }),
-        headers: {
-          "Content-Type": "Application/JSON",
-          Authorization: `Bearer ${route.query.token}`,
-        },
-      });
-
-      const resData = await res.text();
-      console.log(resData);
-      navigateTo("/login");
-    } else {
-      throw new Error("Password and confirm password don't match");
-    }
+    const res = await useCustomFetch("/changePassword", {
+      method: "PUT",
+      body: JSON.stringify({
+        password: password.value,
+      }),
+      headers: {
+        "Content-Type": "Application/JSON",
+        Authorization: `Bearer ${route.query.token}`,
+      },
+    });
+    console.log(res);
+    message.value = "Password changed successfully";
+    navigateTo("/login");
   } catch (err) {
-    console.error(err);
+    console.log(err);
+    message.value = err.response._data.message;
   }
 };
 
@@ -36,6 +34,7 @@ const handleSubmit = async (e) => {
   await updatePassword();
   password.value = "";
   confirmPassword.value = "";
+  toast.add({ title: message.value });
 };
 </script>
 <template>
