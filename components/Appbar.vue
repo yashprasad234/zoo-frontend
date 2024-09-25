@@ -7,6 +7,13 @@ import { userMenu, adminMenu, superAdminMenu } from "~/data/menu";
 const userState = useUserStore();
 const menuState = useMenuStore();
 
+const navMenu = new Map();
+navMenu.set("Home", "/");
+navMenu.set("Zoos", "/zoos");
+navMenu.set("Animals", "/animals");
+navMenu.set("About", "/about");
+navMenu.set("Contact", "/contact");
+
 async function fetchMe() {
   if (!userState.isLoading && userState.user != null) {
     return;
@@ -67,14 +74,16 @@ onBeforeMount(() => {
         v-if="!userState.isLoading && userState.user == null"
         class="flex gap-16 items-center"
       >
-        <MenuButton
-          name="Login"
-          class="bg-sky-300 px-4 py-2 text-neutral-100"
-          href="/login"
-        />
-        <MenuButton
-          name="Signup"
-          class="bg-sky-300 px-4 py-2 text-neutral-100"
+        <div
+          v-for="([name, href], index) in navMenu"
+          class="flex justify-between gap-16"
+        >
+          <MenuButton :key="index" :name="name" :href="href" />
+        </div>
+        <CTAButton name="Login" href="/login" />
+        <CTAButton
+          class="border border-slate-700 bg-slate-700 px-4 py-2 text-neutral-100 font-bold"
+          name="Register"
           href="/signup"
         />
       </div>

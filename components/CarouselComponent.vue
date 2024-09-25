@@ -1,11 +1,15 @@
 <template>
-  <div class="relative w-full relative">
-    <div class="overflow-hidden relative">
+  <div class="w-full h-1/2">
+    <div class="overflow-hidden">
       <div
         class="flex transition-transform duration-500"
         :style="`transform: translateX(-${currentIndex * 100}%)`"
       >
-        <div v-for="(image, index) in images" :key="index" class="min-w-full">
+        <div
+          v-for="(image, index) in images"
+          :key="index"
+          class="min-w-full m-0 p-0"
+        >
           <img
             :src="image.src"
             :alt="image.alt"
@@ -13,9 +17,6 @@
           />
         </div>
       </div>
-    </div>
-    <div class="absolute z-50 top-1/4 flex left-96">
-      <h1 class="text-6xl text-slate-50 drop-shadow-xl">Welcome to the Zoo!</h1>
     </div>
   </div>
 </template>
