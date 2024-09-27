@@ -8,7 +8,7 @@ export function useCustomFetch<T>(
     baseURL: "http://localhost:8080",
     headers: localStorage.getItem("user-token")
       ? {
-          Authorization: `Bearer ${localStorage.getItem("user-token")}}`,
+          Authorization: `Bearer ${localStorage.getItem("user-token")}`,
         }
       : {},
   };
