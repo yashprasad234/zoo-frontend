@@ -1,17 +1,17 @@
 export const userMenu: Map<string, string> = new Map();
-userMenu.set("Home", "/user/");
-userMenu.set("About", "/user/about");
-userMenu.set("Dashboard", "/user/dashboard");
+userMenu.set("Home", "/");
+userMenu.set("About", "/about");
+userMenu.set("Dashboard", "/dashboard");
 
 export const adminMenu: Map<string, string> = new Map();
-adminMenu.set("Home", "/admin/");
-adminMenu.set("About", "/admin/about");
-adminMenu.set("Dashboard", "/admin/dashboard");
-adminMenu.set("Users", "/admin/users");
+adminMenu.set("Home", "/");
+adminMenu.set("About", "/about");
+adminMenu.set("Dashboard", "/dashboard");
+adminMenu.set("Users", "/users");
 
 export const superAdminMenu: Map<string, string> = new Map();
-superAdminMenu.set("Home", "/superadmin/");
-superAdminMenu.set("About", "/superadmin/about");
-superAdminMenu.set("Dashboard", "/superadmin/dashboard");
-superAdminMenu.set("Users", "/superadmin/dashboard");
-superAdminMenu.set("Admins", "/superadmin/dashboard");
+superAdminMenu.set("Home", "/");
+superAdminMenu.set("About", "/about");
+superAdminMenu.set("Dashboard", "/dashboard");
+superAdminMenu.set("Users", "/users");
+superAdminMenu.set("Admins", "/admins");

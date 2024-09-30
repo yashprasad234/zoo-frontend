@@ -36,7 +36,7 @@ async function fetchData() {
         : superAdminMenu;
     menuState.$patch({ menu });
     message.value = "Logged in!";
-    navigateTo(`/${userState.user.role}/dashboard`);
+    navigateTo(`/dashboard`);
   } catch (err) {
     console.log(err.response._data.message);
     message.value = err.response._data.message;
