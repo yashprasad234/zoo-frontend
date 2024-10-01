@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import CustomInput from "~/components/CustomInput.vue";
 import { useUserStore } from "~/store/user.ts";
-import { userMenu, adminMenu, superAdminMenu } from "~/data/menu";
+import { userMenu } from "~/data/menu";
 import { useMenuStore } from "~/store/menu";
 import { useCustomFetch } from "~/composables/useCustomFetch";
 
@@ -28,12 +28,7 @@ async function fetchData() {
     });
     localStorage.setItem("user-token", res.token);
     userState.$patch({ isLoading: false, user: res.userDetails });
-    let menu =
-      userState.user.role == "USER"
-        ? userMenu
-        : userState.user.role == "ADMIN"
-        ? adminMenu
-        : superAdminMenu;
+    let menu = userMenu;
     menuState.$patch({ menu });
     message.value = "Logged in!";
     navigateTo(`/dashboard`);
@@ -54,7 +49,7 @@ async function handleLogin(e) {
 
 <template>
   <div
-    class="bg-sky-300 h-screen flex justify-center"
+    class="bg-primary-earth h-screen flex justify-center font-serif text-off-white"
     v-if="userState.user == null"
   >
     <div
@@ -77,7 +72,7 @@ async function handleLogin(e) {
         />
         <button
           type="submit"
-          class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300"
+          class="outline outline-2 px-4 py-2 text-xl text-white bg-primary-forest"
         >
           Login
         </button>
@@ -86,13 +81,13 @@ async function handleLogin(e) {
         Don't have an account?
         <span
           @click="navigateTo('/signup')"
-          class="text-sky-500 hover:underline cursor-pointer"
+          class="text-primary-forest hover:underline cursor-pointer"
           >Signup</span
         >
       </p>
       <button
         type="submit"
-        class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300 -mt-6 -mb-12"
+        class="outline outline-2 px-4 py-2 text-xl text-white bg-soft-beige -mt-6 -mb-12"
         @click="navigateTo('/forgotPassword')"
       >
         Forgot Password

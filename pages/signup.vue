@@ -45,7 +45,7 @@ async function handleSignup(e) {
 </script>
 
 <template>
-  <div class="bg-sky-300 h-screen flex justify-center">
+  <div class="bg-primary-earth h-screen flex justify-center font-serif">
     <div
       class="flex flex-col justify-center items-center w-1/3 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl mt-8"
     >
@@ -71,7 +71,7 @@ async function handleSignup(e) {
         />
         <button
           type="submit"
-          class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300"
+          class="outline outline-2 px-4 py-2 text-xl text-white bg-primary-forest"
         >
           Signup
         </button>
@@ -80,7 +80,7 @@ async function handleSignup(e) {
         Already have an account?
         <span
           @click="navigateTo('/login')"
-          class="text-sky-500 hover:underline cursor-pointer"
+          class="text-primary-forest hover:underline cursor-pointer"
           >Login</span
         >
       </p>

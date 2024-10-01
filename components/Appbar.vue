@@ -2,17 +2,15 @@
 import { useUserStore } from "~/store/user.ts";
 import { useMenuStore } from "~/store/menu";
 import MenuButton from "./MenuButton.vue";
-import { userMenu, adminMenu, superAdminMenu } from "~/data/menu";
+import { userMenu } from "~/data/menu";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
 
 const navMenu = new Map();
 navMenu.set("Home", "/");
-navMenu.set("Zoos", "/zoos");
-navMenu.set("Animals", "/animals");
-navMenu.set("About", "/about");
-navMenu.set("Contact", "/contact");
+navMenu.set("About", "/#about");
+navMenu.set("Contact", "/#contact");
 
 async function fetchMe() {
   if (!userState.isLoading && userState.user != null) {
@@ -27,12 +25,7 @@ async function fetchMe() {
         user: res,
       });
 
-      const menu =
-        userState.user?.role === "USER"
-          ? userMenu
-          : userState.user?.role === "ADMIN"
-          ? adminMenu
-          : superAdminMenu || null;
+      const menu = userMenu;
 
       menuState.$patch({ menu: menu });
     } catch (err) {
@@ -68,7 +61,9 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="flex items-center justify-between px-6 py-4">
+  <div
+    class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-50 font-serif"
+  >
     <div class="text-3xl">ZOO</div>
 
     <div v-if="userState.isLoading"></div>
@@ -94,12 +89,18 @@ onBeforeMount(() => {
         >
           <MenuButton :key="index" :name="name" :href="href" />
         </div>
-        <CTAButton name="Login" href="/login" />
-        <CTAButton
-          class="border border-slate-700 bg-slate-700 px-4 py-2 text-neutral-100 font-bold"
-          name="Register"
-          href="/signup"
-        />
+        <button
+          @click="navigateTo(`/login`)"
+          class="border border-deep-orange bg-white hover:bg-deep-orange px-4 py-2 hover:text-neutral-100 font-bold"
+        >
+          Login
+        </button>
+        <button
+          class="border border-deep-orange bg-deep-orange px-4 py-2 text-neutral-100 font-bold"
+          @click="navigateTo(`/signup`)"
+        >
+          Register
+        </button>
       </div>
     </div>
   </div>

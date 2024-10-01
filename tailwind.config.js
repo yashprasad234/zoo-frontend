@@ -10,7 +10,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colos: {
+      colors: {
         "primary-forest": "#2C5F2D",
         "primary-earth": "#8B5E3C",
         "secondary-yellow": "#F4A261",

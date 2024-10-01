@@ -10,7 +10,8 @@ const props = defineProps({
   },
   class: {
     type: String,
-    default: "px-4 py-2 hover:bg-sky-300 hover:text-neutral-100 cursor-pointer",
+    default:
+      "px-4 py-2 hover:bg-primary-earth hover:text-neutral-100 cursor-pointer",
   },
 });
 </script>
