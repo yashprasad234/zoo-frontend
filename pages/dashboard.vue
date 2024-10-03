@@ -28,17 +28,4 @@ const userState = useUserStore();
       See More
     </button>
   </section>
-  <section class="my-8 flex flex-col gap-4 p-4">
-    <h1 class="text-4xl font-serif text-center">Animal Explorer</h1>
-    <div class="grid grid-cols-12 gap-6">
-      <Card class="col-span-8 col-start-3" />
-      <Card class="col-span-8 col-start-3" />
-    </div>
-    <button
-      class="bg-deep-orange w-28 text-off-white mx-auto px-4 py-2"
-      @click="navigateTo(`/animals`)"
-    >
-      See More
-    </button>
-  </section>
 </template>

@@ -3,9 +3,11 @@ import { useUserStore } from "~/store/user.ts";
 import { useMenuStore } from "~/store/menu";
 import MenuButton from "./MenuButton.vue";
 import { userMenu } from "~/data/menu";
+import AvatarComponent from "./AvatarComponent.vue";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
+const isOpen = ref(false);
 
 const navMenu = new Map();
 navMenu.set("Home", "/");
@@ -52,6 +54,7 @@ async function handleLogout() {
 }
 
 async function logout() {
+  isOpen.value = false;
   await handleLogout();
 }
 
@@ -75,10 +78,9 @@ onBeforeMount(() => {
         >
           <MenuButton :key="index" :name="name" :href="href" />
         </div>
-        <button class="bg-sky-300 px-4 py-2 text-neutral-100" @click="logout">
-          Logout
-        </button>
+        <AvatarComponent v-model="isOpen" />
       </div>
+      <AvatarPopup v-if="isOpen" :logoutHandler="logout" />
       <div
         v-if="!userState.isLoading && userState.user == null"
         class="flex gap-16 items-center"

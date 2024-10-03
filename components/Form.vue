@@ -18,7 +18,7 @@ const updateValue = (index, value) => {
 
 <template>
   <div
-    class="flex flex-col items-center w-2/5 gap-8 h-max bg-white py-4 px-12 rounded-xl mt-4"
+    class="flex flex-col items-center w-2/5 gap-8 h-max bg-white py-4 px-12 rounded-xl mt-4 font-serif border border-2 border-slate-800"
   >
     <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
     <form @submit="props.handler" class="flex flex-col gap-12 w-full">
@@ -34,7 +34,7 @@ const updateValue = (index, value) => {
       </div>
       <button
         type="submit"
-        class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300 w-full"
+        class="outline outline-2 px-4 py-2 text-xl text-off-white bg-primary-forest w-full"
       >
         {{ props.submitBtnText }}
       </button>
