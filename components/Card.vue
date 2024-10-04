@@ -9,6 +9,7 @@ const props = defineProps({
   area: Number,
   description: String,
   dataId: Number,
+  showButtons: Boolean,
 });
 </script>
 <template>
@@ -37,7 +38,11 @@ const props = defineProps({
         quasi natus laborum.`
           }}
         </p>
-        <div class="flex text-xs gap-4 justify-around mt-2" :data-id="dataId">
+        <div
+          class="flex text-xs gap-4 justify-around mt-2"
+          :data-id="dataId"
+          v-if="showButtons"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -63,28 +68,6 @@ const props = defineProps({
               stroke-linecap="round"
               stroke-linejoin="round"
               d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-            />
-          </svg>
-          <svg
-            v-if="userState?.user?.role != `USER`"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
-            @click="
-              (e) => {
-                const el = e.currentTarget;
-                console.log(el.parentElement.dataset.id);
-                navigateTo(`/zoos/${el.parentElement.dataset.id}`);
-              }
-            "
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
             />
           </svg>
           <svg

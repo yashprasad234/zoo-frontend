@@ -53,7 +53,7 @@ const handler = async (e) => {
       gender: formInputs.value.var1,
       species: formInputs.value.var2,
       habitat: formInputs.value.var3,
-      userId: userState.user.id,
+      userId: userState?.user?.id,
     }),
     headers: {
       "Content-Type": "application/json",

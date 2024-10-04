@@ -9,6 +9,7 @@ const props = defineProps({
   habitat: String,
   dataId: Number,
   dob: String,
+  handleDelete: Function,
 });
 
 const calculateAge = (dob) => {
@@ -36,7 +37,7 @@ const calculateAge = (dob) => {
         class="object-cover h-max"
       />
     </div>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 p-2">
       <p
         class="bg-primary-forest text-off-white px-4 py-2 text-3xl font-bold w-max"
       >
@@ -60,12 +61,12 @@ const calculateAge = (dob) => {
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            v-if="userState?.user?.role"
+            v-if="userState?.user?.role == 'SUPERADMIN'"
             @click="
               (e) => {
                 const el = e.currentTarget;
                 console.log(el.parentElement.dataset.id);
-                // navigateTo(`/zoos/${el.parentElement.dataset.id}`);
+                navigateTo(`/zoos/transfer/${el.parentElement.dataset.id}`);
               }
             "
             class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
@@ -85,12 +86,7 @@ const calculateAge = (dob) => {
             stroke-width="1.5"
             stroke="currentColor"
             class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
-            @click="
-              (e) => {
-                const el = e.currentTarget;
-                console.log(el.parentElement.dataset.id);
-              }
-            "
+            @click="handleDelete"
           >
             <path
               stroke-linecap="round"

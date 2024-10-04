@@ -6,7 +6,7 @@ const userState = useUserStore();
 
 <template>
   <div
-    v-if="userState.user == null"
+    v-if="userState?.user == null"
     class="flex flex-col justify-center items-center gap-8"
   >
     <h1 class="text-3xl text-center">Welcome to the Zoo</h1>
@@ -18,7 +18,7 @@ const userState = useUserStore();
   </div>
   <div v-else class="flex flex-col justify-center items-center">
     <h1 class="text-3xl text-center">
-      Welcome back {{ userState.user.username }}
+      Welcome back {{ userState?.user?.username }}
     </h1>
   </div>
 </template>

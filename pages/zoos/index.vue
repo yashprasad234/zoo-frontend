@@ -2,6 +2,9 @@
 import Card from "~/components/Card.vue";
 import AddZooPopup from "~/components/zoo/ZooPopup.vue";
 import { useCustomFetch } from "~/composables/useCustomFetch";
+import { useUserStore } from "~/store/user";
+
+const userState = useUserStore();
 const zooData = ref(null);
 const isOpen = ref(false);
 
@@ -39,6 +42,7 @@ onBeforeMount(() => {
     <button
       class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-32 top-8"
       @click="handlePopup"
+      v-if="userState?.user?.role == 'SUPERADMIN'"
     >
       Add New Zoo
     </button>
@@ -53,6 +57,7 @@ onBeforeMount(() => {
         :inaugration="data.inaugration"
         :area="data.area"
         :description="data.description"
+        :showButtons="true"
       />
     </div>
   </div>

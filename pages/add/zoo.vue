@@ -39,18 +39,18 @@ const formInputs = ref({
 // String city, String state, String country, int capacity, int numberOfAnimals, int species,
 // 				int endageredSpecies, Date inaugration)
 
-const handler = (e) => {
+const handler = async (e) => {
   e.preventDefault();
   // console.log("TimeStamp : " + Date.parse(formInputs.value.var7));
   console.log("Date : " + formInputs.value.var7);
-  useCustomFetch("/super/zoo/create", {
+  await useCustomFetch("/super/zoo/create", {
     method: "POST",
     body: JSON.stringify({
       name: formInputs.value.var0,
       location: formInputs.value.var1,
       area: formInputs.value.var2,
       description: formInputs.value.var3,
-      userId: userState.user.id,
+      userId: userState?.user?.id,
     }),
     headers: {
       "Content-Type": "application/json",

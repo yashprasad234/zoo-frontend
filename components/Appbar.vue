@@ -15,7 +15,7 @@ navMenu.set("About", "/#about");
 navMenu.set("Contact", "/#contact");
 
 async function fetchMe() {
-  if (!userState.isLoading && userState.user != null) {
+  if (!userState?.isLoading && userState?.user != null) {
     return;
   } else {
     try {
@@ -69,20 +69,25 @@ onBeforeMount(() => {
   >
     <div class="text-3xl">ZOO</div>
 
-    <div v-if="userState.isLoading"></div>
+    <div v-if="userState?.isLoading"></div>
     <div>
-      <div v-if="userState.user != null" class="flex gap-16 items-center">
+      <div v-if="userState?.user != null" class="flex gap-16 items-center">
         <div
-          v-for="([name, href], index) in menuState.menu"
+          v-for="([name, href], index) in menuState?.menu"
           class="flex justify-between gap-16"
         >
           <MenuButton :key="index" :name="name" :href="href" />
         </div>
         <AvatarComponent v-model="isOpen" />
       </div>
-      <AvatarPopup v-if="isOpen" :logoutHandler="logout" />
+      <AvatarPopup
+        v-if="isOpen"
+        :logoutHandler="logout"
+        :userName="userState?.user.username"
+        v-model="isOpen"
+      />
       <div
-        v-if="!userState.isLoading && userState.user == null"
+        v-if="!userState?.isLoading && userState?.user == null"
         class="flex gap-16 items-center"
       >
         <div

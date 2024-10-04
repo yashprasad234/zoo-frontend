@@ -6,10 +6,10 @@ const arr = [1, 2, 3, 4, 5, 6];
 const userState = useUserStore();
 </script>
 
-<template v-if="!userState.isLoading && userState.user != null">
+<template v-if="!userState?.isLoading && userState?.user != null">
   <div class="text-off-white font-serif">
     <div class="flex flex-col bg-primary-forest items-center gap-4 py-8">
-      <h1 class="text-6xl">Welcome back, {{ userState.user?.username }}!</h1>
+      <h1 class="text-6xl">Welcome back, {{ userState?.user?.username }}!</h1>
       <h3 class="text-2xl">
         Explore your favorite zoos and track your registered animals.
       </h3>

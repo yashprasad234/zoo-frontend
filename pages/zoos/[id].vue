@@ -2,15 +2,73 @@
 import AnimalPopup from "~/components/animal/AnimalPopup.vue";
 import AnimalCard from "~/components/animal/AnimalCard.vue";
 import { useCustomFetch } from "~/composables/useCustomFetch";
+import { useUserStore } from "~/store/user";
+
 const zoo = ref(null);
 const animals = ref(null);
 const isOpen = ref(false);
+const userState = useUserStore();
 const route = useRoute();
 const count = useState("count", () => 0);
 
+function formatDateFromTimestamp(timestamp) {
+  const date = new Date(timestamp);
+
+  const day = date.getDate();
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Determine the correct ordinal suffix for the day
+  const ordinalSuffix = (day) => {
+    if (day > 3 && day < 21) return "th";
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  return `${day}${ordinalSuffix(day)} ${month}, ${year}`;
+}
+
 const handlePopup = () => {
   isOpen.value = !isOpen.value;
-  count++;
+  count.value += 1;
+};
+
+const handleDelete = async (e) => {
+  try {
+    const res = await useCustomFetch(
+      `/animal/id/${e.currentTarget.parentElement.dataset.id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    console.log(res);
+    count.value += 1;
+    console.log(count.value);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const fetchAnimals = async () => {
@@ -37,7 +95,7 @@ const fetchZoo = async () => {
   }
 };
 
-watch(isOpen, () => {
+watch(count, () => {
   fetchAnimals();
 });
 
@@ -48,7 +106,6 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  {{ console.log(isOpen) }}
   <AnimalPopup v-if="isOpen" v-model="isOpen" />
   <div :class="isOpen ? `relative blur-sm` : `relative`">
     <div class="flex w-full gap-4 font-serif">
@@ -67,7 +124,7 @@ onBeforeMount(() => {
         </p>
         <div class="flex justify-around">
           <p class="text-xl font-semibold">
-            Inaugrated on: {{ zoo?.inaugration }}
+            Inaugrated on: {{ formatDateFromTimestamp(zoo?.inaugration) }}
           </p>
           <p class="text-xl font-semibold">Area: {{ zoo?.area }} Acres</p>
         </div>
@@ -79,6 +136,10 @@ onBeforeMount(() => {
     >
       <h3 class="text-4xl font-bold text-center">Our animals</h3>
       <button
+        v-if="
+          userState?.user?.role == 'ADMIN' ||
+          userState?.user?.role == 'SUPERADMIN'
+        "
         class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
         @click="handlePopup"
       >
@@ -95,6 +156,7 @@ onBeforeMount(() => {
           :habitat="animal.habitat"
           :dob="animal.dob"
           :dataId="animal.id"
+          :handleDelete="handleDelete"
         />
       </div>
     </div>

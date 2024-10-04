@@ -49,7 +49,7 @@ const handler = async (e) => {
       location: formInputs.value.var1,
       area: +formInputs.value.var2,
       description: formInputs.value.var3,
-      userId: userState.user.id,
+      userId: userState?.user?.id,
     }),
     headers: {
       "Content-Type": "application/json",

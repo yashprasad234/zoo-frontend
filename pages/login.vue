@@ -50,7 +50,7 @@ async function handleLogin(e) {
 <template>
   <div
     class="bg-primary-earth h-screen flex justify-center font-serif text-off-white"
-    v-if="userState.user == null"
+    v-if="userState?.user == null"
   >
     <div
       class="flex flex-col justify-center items-center w-1/3 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl mt-4"
