@@ -106,69 +106,77 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <AnimalPopup v-if="isOpen" v-model="isOpen" />
-  <div :class="isOpen ? `relative blur-sm` : `relative`">
-    <div class="flex w-full gap-4 font-serif">
-      <img
-        src="/assets/zoo/delhi-zoo.jpg"
-        alt=""
-        srcset=""
-        class="object-cover w-3/5"
-      />
-      <div class="flex flex-col gap-4 justify-center">
-        <h2 class="text-5xl font-bold text-center">
-          {{ zoo?.name }}
-        </h2>
-        <p class="text-lg font-mono">
-          {{ zoo?.description }}
-        </p>
-        <div class="flex justify-around">
-          <p class="text-xl font-semibold">
-            Inaugrated on: {{ formatDateFromTimestamp(zoo?.inaugration) }}
+  <div class="relative">
+    <div
+      v-if="isOpen"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
+    >
+      <AnimalPopup v-if="isOpen" v-model="isOpen" />
+    </div>
+    <div :class="isOpen ? `relative blur-sm` : `relative`">
+      <div class="font-serif relative">
+        <img
+          src="/assets/zoo/delhi-zoo.jpg"
+          alt="zoo-img"
+          class="brightness-50 h-96 w-full object-cover"
+        />
+        <div
+          class="flex flex-col gap-4 justify-center w-max text-white absolute top-1/2 left-20 z-50"
+        >
+          <h2 class="text-5xl font-black text-center">
+            {{ zoo?.name }}
+          </h2>
+          <p class="text-lg font-mono">
+            {{ zoo?.description }}
           </p>
-          <p class="text-xl font-semibold">Area: {{ zoo?.area }} Acres</p>
+          <div class="flex justify-between">
+            <p class="text-xl font-semibold">
+              Inaugrated on: {{ formatDateFromTimestamp(zoo?.inaugration) }}
+            </p>
+            <p class="text-xl font-semibold">Area: {{ zoo?.area }} Acres</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      v-if="animals != null"
-      class="flex flex-col gap-8 font-serif my-12 relative"
-    >
-      <h3 class="text-4xl font-bold text-center">Our animals</h3>
-      <button
-        v-if="
-          userState?.user?.role == 'ADMIN' ||
-          userState?.user?.role == 'SUPERADMIN'
-        "
-        class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
-        @click="handlePopup"
+      <div
+        v-if="animals != null"
+        class="flex flex-col gap-8 font-serif my-12 relative"
       >
-        Add New Animal
-      </button>
-      <div class="grid grid-cols-12 gap-8 my-8 px-4">
-        <AnimalCard
-          v-for="(animal, ind) in animals"
-          :key="ind"
-          class="col-span-4"
-          :animalName="animal.name"
-          :gender="animal.gender"
-          :species="animal.species"
-          :habitat="animal.habitat"
-          :dob="animal.dob"
-          :dataId="animal.id"
-          :handleDelete="handleDelete"
-        />
-      </div>
-    </div>
-    <div v-else>
-      <h1 class="text-4xl my-8 font-serif text-center">
-        <span
-          class="text-primary-forest underline cursor-pointer"
+        <h3 class="text-4xl font-bold text-center">Our animals</h3>
+        <button
+          v-if="
+            userState?.user?.role == 'ADMIN' ||
+            userState?.user?.role == 'SUPERADMIN'
+          "
+          class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
           @click="handlePopup"
-          >Add Animals</span
         >
-        to See the List Here
-      </h1>
+          Add New Animal
+        </button>
+        <div class="grid grid-cols-12 gap-8 my-8 px-4">
+          <AnimalCard
+            v-for="(animal, ind) in animals"
+            :key="ind"
+            class="col-span-4"
+            :animalName="animal.name"
+            :gender="animal.gender"
+            :species="animal.species"
+            :habitat="animal.habitat"
+            :dob="animal.dob"
+            :dataId="animal.id"
+            :handleDelete="handleDelete"
+          />
+        </div>
+      </div>
+      <div v-else>
+        <h1 class="text-4xl my-8 font-serif text-center">
+          <span
+            class="text-primary-forest underline cursor-pointer"
+            @click="handlePopup"
+            >Add Animals</span
+          >
+          to See the List Here
+        </h1>
+      </div>
     </div>
   </div>
 </template>

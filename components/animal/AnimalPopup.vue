@@ -71,21 +71,19 @@ const handler = async (e) => {
 </script>
 
 <template>
-  <div class="p-2 bg-white sticky z-50 w-2/3 top-12 left-60 shadow-2xl">
+  <div class="flex flex-col">
     <button
-      class="outline outline-2 outline-slate-800 px-4 py-2 absolute right-8"
+      class="outline outline-2 outline-slate-800 px-2 w-max self-end text-sm"
       @click="onClick"
     >
       X
     </button>
-    <div class="flex justify-center">
-      <Form
-        :handler="handler"
-        :inputs="inputs"
-        formName="Add Animal"
-        submitBtnText="Submit"
-        v-model="formInputs"
-      />
-    </div>
+    <Form
+      :handler="handler"
+      :inputs="inputs"
+      formName="Add Animal"
+      submitBtnText="Submit"
+      v-model="formInputs"
+    />
   </div>
 </template>

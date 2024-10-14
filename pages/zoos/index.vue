@@ -35,8 +35,12 @@ onBeforeMount(() => {
 });
 </script>
 <template>
-  {{ console.log(zooData) }}
-  <AddZooPopup v-if="isOpen" v-model="isOpen" />
+  <div
+    v-if="isOpen"
+    class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
+  >
+    <AddZooPopup v-if="isOpen" v-model="isOpen" />
+  </div>
   <div :class="isOpen ? `relative blur-sm` : `relative`">
     <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
     <button
