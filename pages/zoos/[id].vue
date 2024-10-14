@@ -1,19 +1,21 @@
 <script setup>
 import AnimalPopup from "~/components/animal/AnimalPopup.vue";
 import AnimalCard from "~/components/animal/AnimalCard.vue";
+import ConfirmationPopup from "~/components/ConfirmationPopup.vue";
 import { useCustomFetch } from "~/composables/useCustomFetch";
 import { useUserStore } from "~/store/user";
 
 const zoo = ref(null);
 const animals = ref(null);
 const isOpen = ref(false);
+const confimationPopup = ref(false);
+const selectedAnimalId = ref(null);
 const userState = useUserStore();
 const route = useRoute();
 const count = useState("count", () => 0);
 
 function formatDateFromTimestamp(timestamp) {
   const date = new Date(timestamp);
-
   const day = date.getDate();
   const monthNames = [
     "Jan",
@@ -50,27 +52,29 @@ function formatDateFromTimestamp(timestamp) {
 }
 
 const handlePopup = () => {
-  console.log("Inside handlePopup");
   isOpen.value = !isOpen.value;
   count.value += 1;
-  console.log("Updated value of count in handlePopup");
 };
 
-const handleDelete = async (e) => {
+const handleConfirmation = (id) => {
+  selectedAnimalId.value = id;
+  confimationPopup.value = true;
+};
+
+const handleDelete = async (id) => {
   try {
-    const res = await useCustomFetch(
-      `/animal/id/${e.currentTarget.parentElement.dataset.id}`,
-      {
-        method: "DELETE",
-      }
-    );
-    console.log(res);
+    const res = await useCustomFetch(`/animal/id/${id}`, {
+      method: "DELETE",
+    });
     count.value += 1;
-    console.log(count.value);
   } catch (err) {
     console.log(err);
   }
 };
+
+function handler() {
+  handleDelete(selectedAnimalId.value);
+}
 
 const fetchAnimals = async () => {
   try {
@@ -95,7 +99,6 @@ const fetchZoo = async () => {
 };
 
 watch(count, () => {
-  console.log("Count updated fetchAnimals called");
   fetchAnimals();
 });
 
@@ -108,12 +111,18 @@ onBeforeMount(() => {
 <template>
   <div class="relative">
     <div
+      v-if="confimationPopup"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <ConfirmationPopup v-model="confimationPopup" :handler="handler" />
+    </div>
+    <div
       v-if="isOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 absolute top-0 left-1/2 transform -translate-x-1/2"
     >
       <AnimalPopup v-if="isOpen" v-model="isOpen" v-model:count="count" />
     </div>
-    <div :class="isOpen ? `relative blur-sm` : `relative`">
+    <div :class="isOpen || confimationPopup ? `relative blur-sm` : `relative`">
       <div class="font-serif relative">
         <img
           src="/assets/zoo/delhi-zoo.jpg"
@@ -156,7 +165,6 @@ onBeforeMount(() => {
           <AnimalCard
             v-for="(animal, ind) in animals"
             :key="ind"
-            class="col-span-4 row-span-3"
             :animalName="animal.name"
             :gender="animal.gender"
             :img="animal.animalImg"
@@ -164,7 +172,8 @@ onBeforeMount(() => {
             :habitat="animal.habitat"
             :dob="animal.dob"
             :dataId="animal.id"
-            :handleDelete="handleDelete"
+            :handleConfirmation="handleConfirmation"
+            class="col-span-4 row-span-3"
           />
         </div>
       </div>

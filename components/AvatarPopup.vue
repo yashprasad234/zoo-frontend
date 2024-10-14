@@ -9,7 +9,6 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 const onClick = () => {
-  console.log(props.modelValue);
   emit("update:modelValue", !props.modelValue);
 };
 const userState = useUserStore();

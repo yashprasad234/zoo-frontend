@@ -22,7 +22,6 @@ const fetchAnimal = async () => {
     const res = await useCustomFetch(`/animal/id/${route.params.id}`, {
       method: "GET",
     });
-    console.log(res.zoo.id);
     myAnimal.value = res;
     await fetchAllZoos();
   } catch (err) {
@@ -38,7 +37,6 @@ const fetchAllZoos = async () => {
     allZoos.value = res.filter((zoo) => {
       if (zoo.id != myAnimal.value.zoo.id) return zoo;
     });
-    console.log(allZoos.value);
   } catch (err) {
     console.log(err);
   }

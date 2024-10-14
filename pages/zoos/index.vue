@@ -17,7 +17,6 @@ const fetchZoos = async () => {
     const res = await useCustomFetch("/zoo/list", {
       method: "GET",
     });
-    console.log(res);
     zooData.value = res;
   } catch (err) {
     console.log(err);

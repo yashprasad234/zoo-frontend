@@ -39,14 +39,12 @@ const updatePassword = async () => {
           Authorization: `Bearer ${route.query.token}`,
         },
       });
-      console.log(res);
       message.value = "Password changed successfully";
       navigateTo("/login");
     }
   } catch (err) {
     console.log(err);
     message.value = err.response.data.message;
-    // message.value = err.response._data.message;
   }
 };
 

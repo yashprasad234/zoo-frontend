@@ -10,7 +10,7 @@ const props = defineProps({
   habitat: String,
   dataId: Number,
   dob: String,
-  handleDelete: Function,
+  handleConfirmation: Function,
 });
 
 const calculateAge = (dob) => {
@@ -27,6 +27,7 @@ const calculateAge = (dob) => {
   return `${yearStr} ${months > 0 ? monthStr : ""}`.trim();
 };
 </script>
+
 <template>
   <div
     class="flex flex-col gap-2 shadow-lg border-2 border-charcoal-black-500 text-charcoal-black font-serif"
@@ -67,7 +68,6 @@ const calculateAge = (dob) => {
           @click="
             (e) => {
               const el = e.currentTarget;
-              console.log(el.parentElement.dataset.id);
               navigateTo(`/zoos/transfer/${el.parentElement.dataset.id}`);
             }
           "
@@ -88,7 +88,11 @@ const calculateAge = (dob) => {
           stroke-width="1.5"
           stroke="currentColor"
           class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
-          @click="handleDelete"
+          @click="
+            () => {
+              handleConfirmation(props.dataId);
+            }
+          "
         >
           <path
             stroke-linecap="round"

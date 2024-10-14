@@ -34,7 +34,6 @@ const formInputs = ref({
 
 const handler = async (e) => {
   e.preventDefault();
-  console.log("Date : " + formInputs.value.var7);
   await useCustomFetch("/super/zoo/create", {
     method: "POST",
     body: JSON.stringify({

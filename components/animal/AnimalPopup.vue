@@ -8,10 +8,8 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue", "update:count"]);
 const onClick = () => {
-  console.log(props.count);
   emit("update:modelValue", !props.modelValue);
   emit("update:count", props.count + 1);
-  console.log(props.count);
 };
 window.addEventListener("keydown", (e) => {
   if (props.modelValue && e.key === "Escape") {

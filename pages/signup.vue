@@ -44,7 +44,6 @@ async function fetchData() {
           "Content-Type": "application/json",
         },
       });
-      console.log(res);
       message.value = "User created successfully";
       navigateTo(`/login`);
     } catch (err) {

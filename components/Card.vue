@@ -47,7 +47,6 @@ const props = defineProps({
             @click="
               (e) => {
                 const el = e.currentTarget;
-                console.log(el.parentElement.dataset.id);
                 navigateTo(`/zoos/${el.parentElement.dataset.id}`);
               }
             "
@@ -75,7 +74,6 @@ const props = defineProps({
             @click="
               (e) => {
                 const el = e.currentTarget;
-                console.log(el.parentElement.dataset.id);
                 navigateTo(`/zoos/${el.parentElement.dataset.id}`);
               }
             "

@@ -26,7 +26,6 @@ const fetchForgetPassword = async () => {
       },
     });
     message.value = "User found in DB";
-    console.log(response);
   } catch (err) {
     console.log(err.response);
     message.value = err.response._data.message;
@@ -59,20 +58,6 @@ const handler = async (e) => {
         class="flex flex-col gap-12 w-full"
         :noBorder="true"
       />
-      <!-- <form class="flex flex-col gap-12 w-3/4 -mb-4" @submit="handleSubmit">
-        <CustomInput
-          type="email"
-          placeholder="Enter your email"
-          :required="true"
-          v-model="email"
-        />
-        <button
-          type="submit"
-          class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300"
-        >
-          Search
-        </button>
-      </form> -->
     </div>
   </div>
 </template>
