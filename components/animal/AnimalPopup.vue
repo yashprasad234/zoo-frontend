@@ -4,14 +4,21 @@ import Form from "../Form.vue";
 const userState = useUserStore();
 const props = defineProps({
   modelValue: Boolean,
+  count: Number,
 });
-const emit = defineEmits(["update:modelValue"]);
-const onClick = (e) => {
-  console.log(props.modelValue);
+const emit = defineEmits(["update:modelValue", "update:count"]);
+const onClick = () => {
+  console.log(props.count);
   emit("update:modelValue", !props.modelValue);
+  emit("update:count", props.count + 1);
+  console.log(props.count);
 };
+window.addEventListener("keydown", (e) => {
+  if (props.modelValue && e.key === "Escape") {
+    onClick();
+  }
+});
 const route = useRoute();
-console.log(route.params.id);
 const inputs = [
   {
     type: "text",
@@ -30,12 +37,12 @@ const inputs = [
   },
   {
     type: "text",
-    placeholder: `Enter animal's photo`,
+    placeholder: "Enter the type of habitat in which this animal usually live",
     required: true,
   },
   {
     type: "text",
-    placeholder: "Enter the type of habitat in which this animal usually live",
+    placeholder: `Enter animal's photo`,
     required: true,
   },
 ];
@@ -45,11 +52,11 @@ const formInputs = ref({
   var1: "",
   var2: "",
   var3: "",
+  var4: "",
 });
 
 const handler = async (e) => {
   e.preventDefault();
-  console.log("Date : " + formInputs.value.var7);
   await useCustomFetch("/animal/create", {
     method: "POST",
     body: JSON.stringify({
@@ -58,6 +65,7 @@ const handler = async (e) => {
       gender: formInputs.value.var1,
       species: formInputs.value.var2,
       habitat: formInputs.value.var3,
+      animalImg: formInputs.value.var4,
       userId: userState?.user?.id,
     }),
     headers: {
@@ -70,13 +78,14 @@ const handler = async (e) => {
     var1: "",
     var2: "",
     var3: "",
+    var4: "",
   };
   onClick();
 };
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-2">
     <button
       class="outline outline-2 outline-slate-800 px-2 w-max self-end text-sm"
       @click="onClick"

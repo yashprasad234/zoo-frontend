@@ -2,10 +2,6 @@
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 
-// Integer userId,
-//  String name, String location, float area,
-// 			String description
-
 const inputs = [
   {
     type: "text",
@@ -36,12 +32,8 @@ const formInputs = ref({
   var3: "",
 });
 
-// String city, String state, String country, int capacity, int numberOfAnimals, int species,
-// 				int endageredSpecies, Date inaugration)
-
 const handler = async (e) => {
   e.preventDefault();
-  // console.log("TimeStamp : " + Date.parse(formInputs.value.var7));
   console.log("Date : " + formInputs.value.var7);
   await useCustomFetch("/super/zoo/create", {
     method: "POST",

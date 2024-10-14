@@ -33,10 +33,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div>
-    <NuxtLayout>
-      <Appbar />
-      <NuxtPage />
-    </NuxtLayout>
-    <UNotifications />
+    <Appbar />
+    <NuxtPage />
   </div>
 </template>

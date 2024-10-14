@@ -45,13 +45,14 @@ const handler = async (e) => {
 };
 </script>
 <template>
-  <div class="flex justify-center">
+  <div class="bg-primary-earth h-screen flex justify-center items-center">
     <Form
       :handler="handler"
       :inputs="inputs"
       formName="Reset Password"
       submitBtnText="Submit"
       v-model="formInputs"
+      :noBorder="true"
     />
   </div>
 </template>

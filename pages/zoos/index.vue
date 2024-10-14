@@ -9,9 +9,7 @@ const zooData = ref(null);
 const isOpen = ref(false);
 
 const handlePopup = () => {
-  console.log(isOpen.value);
   isOpen.value = !isOpen.value;
-  console.log(isOpen.value);
 };
 
 const fetchZoos = async () => {

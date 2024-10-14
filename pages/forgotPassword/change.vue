@@ -1,46 +1,67 @@
 <script setup>
 import { ref } from "vue";
-import CustomInput from "~/components/CustomInput.vue";
+import Form from "~/components/Form.vue";
+import { useCustomFetch } from "~/composables/useCustomFetch";
 
-const password = ref("");
-const confirmPassword = ref("");
+const inputs = [
+  {
+    type: "password",
+    placeholder: "Enter New password",
+    required: true,
+  },
+  {
+    type: "password",
+    placeholder: "Confirm New password",
+    required: true,
+  },
+];
+
+const formInputs = ref({
+  var0: "",
+  var1: "",
+});
 const message = ref("");
 const route = useRoute();
 const toast = useToast();
 
 const updatePassword = async () => {
   try {
-    const res = await useCustomFetch("/changePassword", {
-      method: "PUT",
-      body: JSON.stringify({
-        password: password.value,
-      }),
-      headers: {
-        "Content-Type": "Application/JSON",
-        Authorization: `Bearer ${route.query.token}`,
-      },
-    });
-    console.log(res);
-    message.value = "Password changed successfully";
-    navigateTo("/login");
+    if (formInputs.value.var0 != formInputs.value.var1) {
+      throw new Error("Password and Confirm Password Don't Match");
+    } else {
+      const res = await useCustomFetch("/changePassword", {
+        method: "PUT",
+        body: JSON.stringify({
+          password: formInputs.value.var0,
+        }),
+        headers: {
+          "Content-Type": "Application/JSON",
+          Authorization: `Bearer ${route.query.token}`,
+        },
+      });
+      console.log(res);
+      message.value = "Password changed successfully";
+      navigateTo("/login");
+    }
   } catch (err) {
     console.log(err);
-    message.value = err.response._data.message;
+    message.value = err.response.data.message;
+    // message.value = err.response._data.message;
   }
 };
 
-const handleSubmit = async (e) => {
+const handler = async (e) => {
   e.preventDefault();
   await updatePassword();
-  password.value = "";
-  confirmPassword.value = "";
+  formInputs.value.var0 = "";
+  formInputs.value.var1 = "";
   toast.add({ title: message.value });
 };
 </script>
 <template>
-  <div class="bg-sky-300 h-screen flex justify-center">
+  <div class="bg-primary-earth h-screen flex justify-center font-serif">
     <div
-      class="flex flex-col justify-center items-center w-4/12 gap-12 h-max bg-white py-20 px-6 rounded-xl mt-8"
+      class="flex flex-col justify-center items-center w-1/3 gap-6 h-max bg-white py-20 px-6 rounded-xl mt-8"
     >
       <div class="flex flex-col gap-4 w-4/5">
         <h1 class="text-3xl text-slate-800 self-start">Change Password</h1>
@@ -53,26 +74,14 @@ const handleSubmit = async (e) => {
           >, to sign in with your new password.
         </p>
       </div>
-      <form class="flex flex-col gap-12 w-3/4 -mb-4" @submit="handleSubmit">
-        <CustomInput
-          type="password"
-          placeholder="Enter New Password"
-          :required="true"
-          v-model="password"
-        />
-        <CustomInput
-          type="password"
-          placeholder="Confirm New Password"
-          :required="true"
-          v-model="confirmPassword"
-        />
-        <button
-          type="submit"
-          class="outline outline-2 px-4 py-2 text-xl text-white bg-sky-300"
-        >
-          Change Password
-        </button>
-      </form>
+      <Form
+        :handler="handler"
+        :inputs="inputs"
+        submitBtnText="Change Password"
+        v-model="formInputs"
+        class="flex flex-col gap-12 w-full"
+        :noBorder="true"
+      />
     </div>
   </div>
 </template>

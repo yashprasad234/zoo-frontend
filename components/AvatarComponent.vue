@@ -4,7 +4,6 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 const onClick = (e) => {
-  console.log(props.modelValue);
   emit("update:modelValue", !props.modelValue);
 };
 </script>

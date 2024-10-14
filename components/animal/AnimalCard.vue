@@ -5,6 +5,7 @@ const userState = useUserStore();
 const props = defineProps({
   animalName: String,
   gender: String,
+  img: String,
   species: String,
   habitat: String,
   dataId: Number,
@@ -31,15 +32,19 @@ const calculateAge = (dob) => {
     class="flex flex-col gap-2 shadow-lg border-2 border-charcoal-black-500 text-charcoal-black font-serif"
   >
     <img
-      src="/assets/animals/AsiaticLion.webp"
+      :src="
+        props.img != null
+          ? `${props.img}`
+          : '/_nuxt/assets/animals/AsiaticLion.webp'
+      "
       alt="zoo"
-      class="object-cover h-max"
+      class="object-cover h-72"
     />
-    <div class="flex flex-col gap-4 p-4">
+    <div class="flex flex-col gap-4 px-4 py-2">
       <p
         class="bg-primary-forest text-off-white px-4 py-2 text-xl font-bold w-max"
       >
-        {{ props.animalName || "Simba" }}
+        {{ props.animalName || props.species }}
       </p>
       <div class="flex flex-col gap-4">
         <div class="flex justify-between">
@@ -51,7 +56,7 @@ const calculateAge = (dob) => {
           <p class="font-bold text-lg">Age : {{ calculateAge(props.dob) }}</p>
         </div>
       </div>
-      <div class="flex text-xs gap-4 justify-around mt-2" :data-id="dataId">
+      <div class="flex text-xs gap-4 justify-around" :data-id="dataId">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

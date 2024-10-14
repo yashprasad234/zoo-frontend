@@ -32,7 +32,6 @@ function formatDateFromTimestamp(timestamp) {
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
 
-  // Determine the correct ordinal suffix for the day
   const ordinalSuffix = (day) => {
     if (day > 3 && day < 21) return "th";
     switch (day % 10) {
@@ -51,8 +50,10 @@ function formatDateFromTimestamp(timestamp) {
 }
 
 const handlePopup = () => {
+  console.log("Inside handlePopup");
   isOpen.value = !isOpen.value;
   count.value += 1;
+  console.log("Updated value of count in handlePopup");
 };
 
 const handleDelete = async (e) => {
@@ -76,7 +77,6 @@ const fetchAnimals = async () => {
     const res = await useCustomFetch(`/animal/zoo/${route.params.id}`, {
       method: "GET",
     });
-    console.log(res);
     animals.value = res;
   } catch (err) {
     console.log(err);
@@ -88,7 +88,6 @@ const fetchZoo = async () => {
     const res = await useCustomFetch(`/zoo/id/${route.params.id}`, {
       method: "GET",
     });
-    console.log(res);
     zoo.value = res;
   } catch (err) {
     console.log(err);
@@ -96,6 +95,7 @@ const fetchZoo = async () => {
 };
 
 watch(count, () => {
+  console.log("Count updated fetchAnimals called");
   fetchAnimals();
 });
 
@@ -111,7 +111,7 @@ onBeforeMount(() => {
       v-if="isOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 absolute top-0 left-1/2 transform -translate-x-1/2"
     >
-      <AnimalPopup v-if="isOpen" v-model="isOpen" />
+      <AnimalPopup v-if="isOpen" v-model="isOpen" v-model:count="count" />
     </div>
     <div :class="isOpen ? `relative blur-sm` : `relative`">
       <div class="font-serif relative">
@@ -152,13 +152,14 @@ onBeforeMount(() => {
         >
           Add New Animal
         </button>
-        <div class="grid grid-cols-12 gap-8 my-8 px-4">
+        <div class="grid grid-cols-12 grid-rows-12 gap-8 my-8 px-4">
           <AnimalCard
             v-for="(animal, ind) in animals"
             :key="ind"
-            class="col-span-4"
+            class="col-span-4 row-span-3"
             :animalName="animal.name"
             :gender="animal.gender"
+            :img="animal.animalImg"
             :species="animal.species"
             :habitat="animal.habitat"
             :dob="animal.dob"

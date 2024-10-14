@@ -7,9 +7,13 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 const onClick = () => {
-  console.log(props.modelValue);
   emit("update:modelValue", !props.modelValue);
 };
+window.addEventListener("keydown", (e) => {
+  if (props.modelValue && e.key === "Escape") {
+    onClick();
+  }
+});
 const inputs = [
   {
     type: "text",
@@ -67,7 +71,7 @@ const handler = async (e) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-2">
     <button
       class="outline outline-2 outline-slate-800 px-2 w-max self-end text-sm"
       @click="onClick"

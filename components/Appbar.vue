@@ -32,8 +32,6 @@ async function fetchMe() {
       menuState.$patch({ menu: menu });
     } catch (err) {
       localStorage.removeItem("user-token");
-      console.log(err.response);
-      console.log(err.response._data.message);
     }
   }
 }
@@ -43,7 +41,6 @@ async function handleLogout() {
     const res = await useCustomFetch(`/logout`, {
       method: "PUT",
     });
-    console.log(res);
     localStorage.removeItem("user-token");
     userState.notFound();
     navigateTo("/login");
