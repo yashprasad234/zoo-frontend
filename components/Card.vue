@@ -14,16 +14,10 @@ const props = defineProps({
 </script>
 <template>
   <div
-    class="grid grid-cols-12 gap-2 shadow-lg border-2 border-charcoal-black-500 text-charcoal-black"
+    class="flex flex-col gap-2 shadow-lg border-2 border-charcoal-black-500 text-charcoal-black font-serif"
   >
-    <div class="col-span-6">
-      <img
-        src="/assets/zoo/delhi-zoo.jpg"
-        alt="zoo"
-        class="object-cover h-max"
-      />
-    </div>
-    <div class="col-span-6">
+    <img src="/assets/zoo/delhi-zoo.jpg" alt="zoo" class="object-cover h-max" />
+    <div class="flex flex-col gap-4 p-2">
       <div class="flex flex-col">
         <h3 class="md:text-lg lg:text-xl xl:text-2xl font-serif font-black">
           {{ props.zooName || "Zoo Name" }}

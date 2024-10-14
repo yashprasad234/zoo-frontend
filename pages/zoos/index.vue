@@ -50,12 +50,12 @@ onBeforeMount(() => {
     >
       Add New Zoo
     </button>
-    <div class="grid grid-cols-12 grid-rows-12 gap-8 my-8">
+    <div class="grid grid-cols-12 gap-8 my-8 px-4">
       <Card
         v-for="(data, ind) in zooData"
         :data-id="data.id"
         :key="ind"
-        class="col-start-2 col-span-10 row-span-4"
+        class="col-span-4"
         :zooName="data.name"
         :location="data.location"
         :inaugration="data.inaugration"
