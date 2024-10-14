@@ -1,14 +1,30 @@
 <script setup="ts">
 import { ref } from "vue";
-import CustomInput from "~/components/CustomInput.vue";
+import Form from "~/components/Form.vue";
 import { useUserStore } from "~/store/user.ts";
 import { userMenu } from "~/data/menu";
 import { useMenuStore } from "~/store/menu";
 import { useCustomFetch } from "~/composables/useCustomFetch";
 
+const inputs = [
+  {
+    type: "email",
+    placeholder: "Enter your email",
+    required: true,
+  },
+  {
+    type: "password",
+    placeholder: "Enter your password",
+    required: true,
+  },
+];
+
+const formInputs = ref({
+  var0: "",
+  var1: "",
+});
+
 const toast = useToast();
-const email = ref("");
-const password = ref("");
 const message = ref("");
 const menuState = useMenuStore();
 
@@ -19,8 +35,8 @@ async function fetchData() {
     const res = await useCustomFetch("/login", {
       method: "POST",
       body: JSON.stringify({
-        username: email.value,
-        password: password.value,
+        username: formInputs.value.var0,
+        password: formInputs.value.var1,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -38,11 +54,11 @@ async function fetchData() {
   }
 }
 
-async function handleLogin(e) {
+async function handler(e) {
   e.preventDefault();
   await fetchData();
-  email.value = "";
-  password.value = "";
+  formInputs.value.var0 = "";
+  formInputs.value.var1 = "";
   toast.add({ title: message.value });
 }
 </script>
@@ -55,28 +71,16 @@ async function handleLogin(e) {
     <div
       class="flex flex-col justify-center items-center w-1/3 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl mt-4"
     >
-      <h1 class="text-3xl text-slate-800">Login</h1>
+      <Form
+        :handler="handler"
+        :inputs="inputs"
+        formName="Login"
+        submitBtnText="Login"
+        v-model="formInputs"
+        class="flex flex-col gap-12 w-full"
+        :noBorder="true"
+      />
 
-      <form @submit="handleLogin" class="flex flex-col gap-12 -mb-4">
-        <CustomInput
-          type="email"
-          placeholder="Enter your email"
-          :required="true"
-          v-model="email"
-        />
-        <CustomInput
-          type="password"
-          placeholder="Enter your password"
-          :required="true"
-          v-model="password"
-        />
-        <button
-          type="submit"
-          class="outline outline-2 px-4 py-2 text-xl text-white bg-primary-forest"
-        >
-          Login
-        </button>
-      </form>
       <p class="text-xl text-slate-800">
         Don't have an account?
         <span
