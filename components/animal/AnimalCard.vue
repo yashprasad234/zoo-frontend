@@ -35,20 +35,20 @@ const calculateAge = (dob) => {
       alt="zoo"
       class="object-cover h-max"
     />
-    <div class="flex flex-col gap-4 p-2">
+    <div class="flex flex-col gap-4 p-4">
       <p
-        class="bg-primary-forest text-off-white px-4 py-2 text-3xl font-bold w-max"
+        class="bg-primary-forest text-off-white px-4 py-2 text-xl font-bold w-max"
       >
         {{ props.animalName || "Simba" }}
       </p>
       <div class="flex flex-col gap-4">
         <div class="flex justify-between">
-          <p class="font-bold text-2xl">Gender : {{ props.gender }}</p>
-          <p class="font-bold text-2xl">Species : {{ props.species }}</p>
+          <p class="font-bold text-lg">Gender : {{ props.gender }}</p>
+          <p class="font-bold text-lg">Species : {{ props.species }}</p>
         </div>
         <div class="flex justify-between">
-          <p class="font-bold text-2xl">Habitat : {{ props.habitat }}</p>
-          <p class="font-bold text-2xl">Age : {{ calculateAge(props.dob) }}</p>
+          <p class="font-bold text-lg">Habitat : {{ props.habitat }}</p>
+          <p class="font-bold text-lg">Age : {{ calculateAge(props.dob) }}</p>
         </div>
       </div>
       <div class="flex text-xs gap-4 justify-around mt-2" :data-id="dataId">

@@ -6,6 +6,7 @@ const props = defineProps({
   submitBtnText: String,
   formName: String,
   modelValue: Object,
+  class: { type: String, default: "flex flex-col gap-12 w-full" },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -21,7 +22,7 @@ const updateValue = (index, value) => {
     class="flex flex-col items-center w-max gap-8 h-max bg-white py-4 px-12 rounded-xl mt-4 font-serif border border-2 border-slate-800"
   >
     <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
-    <form @submit="props.handler" class="flex flex-col gap-12 w-full">
+    <form @submit="props.handler" :class="class">
       <div v-for="(input, ind) of props.inputs">
         <CustomInput2
           :type="input.type"

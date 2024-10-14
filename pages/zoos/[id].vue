@@ -109,7 +109,7 @@ onBeforeMount(() => {
   <div class="relative">
     <div
       v-if="isOpen"
-      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 absolute top-0 left-1/2 transform -translate-x-1/2"
     >
       <AnimalPopup v-if="isOpen" v-model="isOpen" />
     </div>

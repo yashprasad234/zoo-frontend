@@ -81,6 +81,7 @@ const handler = async (e) => {
         formName="Add Zoo"
         submitBtnText="Submit"
         v-model="formInputs"
+        class="flex flex-col gap-8 w-full"
       />
     </div>
   </div>

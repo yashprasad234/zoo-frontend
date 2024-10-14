@@ -30,6 +30,11 @@ const inputs = [
   },
   {
     type: "text",
+    placeholder: `Enter animal's photo`,
+    required: true,
+  },
+  {
+    type: "text",
     placeholder: "Enter the type of habitat in which this animal usually live",
     required: true,
   },
@@ -84,6 +89,7 @@ const handler = async (e) => {
       formName="Add Animal"
       submitBtnText="Submit"
       v-model="formInputs"
+      class="flex flex-col gap-8 w-full"
     />
   </div>
 </template>
