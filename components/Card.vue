@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 
@@ -20,11 +20,11 @@ const props = defineProps({
     <div class="flex flex-col gap-4 p-2">
       <div class="flex flex-col">
         <h3 class="md:text-lg lg:text-xl xl:text-2xl font-serif font-black">
-          {{ props.zooName || "Zoo Name" }}
+          {{ zooName || "Zoo Name" }}
         </h3>
         <p class="text-md font-serif">
           {{
-            props.description ||
+            description ||
             `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
         animi aut officia porro nesciunt obcaecati qui eaque exercitationem
         pariatur et voluptate, magnam quasi vero veniam iste ipsa, est,

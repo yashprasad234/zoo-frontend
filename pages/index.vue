@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 import FeaturedZoos from "~/components/home/FeaturedZoos.vue";
 import About from "~/components/home/About.vue";
 import AnimalSpotlight from "~/components/home/AnimalSpotlight.vue";

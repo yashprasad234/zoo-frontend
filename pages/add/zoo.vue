@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 
@@ -10,7 +10,7 @@ const inputs = [
   },
   {
     type: "text",
-    placeholder: "Enter the lacation of the Zoo",
+    placeholder: "Enter the location of the Zoo",
     required: true,
   },
   {

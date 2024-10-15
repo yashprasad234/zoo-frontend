@@ -1,11 +1,9 @@
-<script setup>
-import Card from "~/components/Card.vue";
-import AddZooPopup from "~/components/zoo/ZooPopup.vue";
-import { useCustomFetch } from "~/composables/useCustomFetch";
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
+import type { ZooType } from "~/types/zoo";
 
 const userState = useUserStore();
-const zooData = ref(null);
+const zooData = ref<ZooType[]>([]);
 const isOpen = ref(false);
 
 const handlePopup = () => {
@@ -17,7 +15,7 @@ const fetchZoos = async () => {
     const res = await useCustomFetch("/zoo/list", {
       method: "GET",
     });
-    zooData.value = res;
+    zooData.value = res as ZooType[];
   } catch (err) {
     console.log(err);
   }
@@ -27,7 +25,7 @@ watch(isOpen, () => {
   fetchZoos();
 });
 
-onBeforeMount(() => {
+onMounted(() => {
   fetchZoos();
 });
 </script>
@@ -36,7 +34,7 @@ onBeforeMount(() => {
     v-if="isOpen"
     class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
   >
-    <AddZooPopup v-if="isOpen" v-model="isOpen" />
+    <ZooPopup v-model="isOpen" />
   </div>
   <div :class="isOpen ? `relative blur-sm` : `relative`">
     <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>

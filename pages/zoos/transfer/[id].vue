@@ -1,12 +1,15 @@
-<script setup>
-const allZoos = ref(null);
-const myAnimal = ref(null);
+<script setup lang="ts">
+import type { AnimalType } from "~/types/animal";
+import type { ZooType } from "~/types/zoo";
+
+const allZoos = ref<ZooType[]>([]);
+const myAnimal = ref<AnimalType>();
 const route = useRoute();
 
-const handleTransfer = async (e) => {
+const handleTransfer = async (e: Event) => {
   try {
     const res = await useCustomFetch(
-      `/animal/id/${route.params.id}?zooId=${e.currentTarget.parentElement.dataset.id}`,
+      `/animal/id/${route.params.id}?zooId=${e?.currentTarget?.parentElement?.dataset.id}`,
       {
         method: "PUT",
       }
@@ -22,7 +25,7 @@ const fetchAnimal = async () => {
     const res = await useCustomFetch(`/animal/id/${route.params.id}`, {
       method: "GET",
     });
-    myAnimal.value = res;
+    myAnimal.value = res as AnimalType;
     await fetchAllZoos();
   } catch (err) {
     console.log(err);
@@ -34,8 +37,8 @@ const fetchAllZoos = async () => {
     const res = await useCustomFetch("/zoo/list", {
       method: "GET",
     });
-    allZoos.value = res.filter((zoo) => {
-      if (zoo.id != myAnimal.value.zoo.id) return zoo;
+    allZoos.value = (res as ZooType[]).filter((zoo) => {
+      if (zoo.id != myAnimal?.value?.zoo.id) return zoo;
     });
   } catch (err) {
     console.log(err);

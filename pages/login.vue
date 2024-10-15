@@ -1,10 +1,8 @@
-<script setup="ts">
-import { ref } from "vue";
+<script setup lang="ts">
 import Form from "~/components/Form.vue";
 import { useUserStore } from "~/store/user.ts";
 import { userMenu } from "~/data/menu";
 import { useMenuStore } from "~/store/menu";
-import { useCustomFetch } from "~/composables/useCustomFetch";
 
 const inputs = [
   {

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
 import Form from "../Form.vue";
 const userState = useUserStore();

@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 import AnimalPopup from "~/components/animal/AnimalPopup.vue";
 import AnimalCard from "~/components/animal/AnimalCard.vue";
 import ConfirmationPopup from "~/components/ConfirmationPopup.vue";

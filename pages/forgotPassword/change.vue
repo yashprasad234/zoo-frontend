@@ -1,8 +1,4 @@
-<script setup>
-import { ref } from "vue";
-import Form from "~/components/Form.vue";
-import { useCustomFetch } from "~/composables/useCustomFetch";
-
+<script setup lang="ts">
 const inputs = [
   {
     type: "password",
@@ -42,7 +38,7 @@ const updatePassword = async () => {
       message.value = "Password changed successfully";
       navigateTo("/login");
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     message.value = err.response.data.message;
   }

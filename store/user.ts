@@ -1,31 +1,36 @@
-// stores/counter.js
 import { defineStore } from "pinia";
 import jwtDecode from "jwt-decode";
 
 interface DecodedToken {
-  exp: number; // JWT expiry timestamp in seconds
+  exp: number;
 }
 
 export const useUserStore = defineStore("user", {
-  state: () => ({ isLoading: false, user: null, token: null }),
+  state: () => ({
+    isLoading: false,
+    user: {
+      id: 0,
+      role: "",
+      username: "",
+    },
+    token: "",
+  }),
   actions: {
     loading() {
       this.isLoading = true;
-      this.user = null;
+      this.user = {
+        id: 0,
+        role: "",
+        username: "",
+      };
     },
     notFound() {
       this.isLoading = false;
-      this.user = null;
-    },
-    isTokenExpired(token: string): boolean {
-      try {
-        const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
-        const now = Math.floor(Date.now() / 1000);
-        return decoded.exp < now;
-      } catch (error) {
-        console.error("Invalid token:", error);
-        return true; // If decoding fails, treat the token as expired
-      }
+      this.user = {
+        id: 0,
+        role: "",
+        username: "",
+      };
     },
   },
 });

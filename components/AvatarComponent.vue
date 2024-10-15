@@ -1,15 +1,12 @@
-<script setup>
-const props = defineProps({
-  modelValue: Boolean,
-});
-const emit = defineEmits(["update:modelValue"]);
-const onClick = (e) => {
-  emit("update:modelValue", !props.modelValue);
-};
+<script setup lang="ts">
+const emit = defineEmits(["updateState"]);
 </script>
 
 <template>
-  <button class="border-2 border-slate-800 rounded-full p-2" @click="onClick">
+  <button
+    class="border-2 border-slate-800 rounded-full p-2"
+    @click="emit('updateState')"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

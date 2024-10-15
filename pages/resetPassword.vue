@@ -1,4 +1,4 @@
-<script setup>
+<script setup="ts">
 const inputs = [
   {
     type: "text",

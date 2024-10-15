@@ -1,9 +1,7 @@
-<script setup="ts">
-import { useUserStore } from "~/store/user.ts";
+<script setup lang="ts">
+import { useUserStore } from "~/store/user";
 import { useMenuStore } from "~/store/menu";
-import MenuButton from "./MenuButton.vue";
 import { userMenu } from "~/data/menu";
-import AvatarComponent from "./AvatarComponent.vue";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
@@ -75,7 +73,7 @@ onBeforeMount(() => {
         >
           <MenuButton :key="index" :name="name" :href="href" />
         </div>
-        <AvatarComponent v-model="isOpen" />
+        <AvatarComponent @updateState="isOpen = !isOpen" />
       </div>
       <AvatarPopup
         v-if="isOpen"

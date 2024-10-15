@@ -1,5 +1,4 @@
-<script setup>
-import CustomInput2 from "./CustomInput2.vue";
+<script setup lang="ts">
 const props = defineProps({
   handler: Function,
   inputs: Array,
@@ -13,7 +12,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 // Emit updated value for a specific input
-const updateValue = (index, value) => {
+const updateValue = (index: number, value: any) => {
   emit("update:modelValue", { ...props.modelValue, [index]: value });
 };
 </script>
@@ -29,7 +28,7 @@ const updateValue = (index, value) => {
     <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
     <form @submit="props.handler" :class="class">
       <div v-for="(input, ind) of props.inputs">
-        <CustomInput2
+        <CustomInput
           :type="input.type"
           :placeholder="input.placeholder"
           :required="input.required"

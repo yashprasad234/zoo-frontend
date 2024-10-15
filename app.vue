@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import Appbar from "./components/Appbar.vue";

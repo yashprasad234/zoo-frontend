@@ -1,7 +1,4 @@
-<script setup="ts">
-import Form from "~/components/Form.vue";
-import { ref } from "vue";
-
+<script setup lang="ts">
 const toast = useToast();
 const message = ref("");
 
@@ -20,15 +17,16 @@ const formInputs = ref({
 const fetchForgetPassword = async () => {
   try {
     const res = await useCustomFetch("/forgotpassword", {
-      method: "GET",
-      headers: {
-        "X-Email": formInputs.value.var0,
-      },
+      method: "POST",
+      // headers: {
+      //   "X-Email": formInputs.value.var0,
+      // },
+      body: formInputs.value.var0,
     });
     message.value = "User found in DB";
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.response);
-    message.value = err.response._data.message;
+    message.value = err.response.message;
   }
 };
 
