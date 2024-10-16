@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Form from "~/components/Form.vue";
-import { useUserStore } from "~/store/user.ts";
+import { useUserStore } from "~/store/user";
 import { userMenu } from "~/data/menu";
 import { useMenuStore } from "~/store/menu";
+import type { UserLoginDetails } from "~/types/user";
 
 const inputs = [
   {
@@ -40,19 +40,20 @@ async function fetchData() {
         "Content-Type": "application/json",
       },
     });
-    localStorage.setItem("user-token", res.token);
-    userState.$patch({ isLoading: false, user: res.userDetails });
+    const data = res as UserLoginDetails;
+    localStorage.setItem("user-token", data.token);
+    userState.$patch({ isLoading: false, user: data.userDetails });
     let menu = userMenu;
     menuState.$patch({ menu });
     message.value = "Logged in!";
     navigateTo(`/dashboard`);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.response._data.message);
     message.value = err.response._data.message;
   }
 }
 
-async function handler(e) {
+async function handler(e: Event) {
   e.preventDefault();
   await fetchData();
   formInputs.value.var0 = "";
@@ -64,13 +65,13 @@ async function handler(e) {
 <template>
   <div
     class="bg-primary-earth h-screen flex justify-center font-serif text-off-white"
-    v-if="userState?.user == null"
+    v-if="userState?.user.role == ''"
   >
     <div
       class="flex flex-col justify-center items-center w-1/3 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl mt-4"
     >
       <Form
-        :handler="handler"
+        @submitForm="handler"
         :inputs="inputs"
         formName="Login"
         submitBtnText="Login"

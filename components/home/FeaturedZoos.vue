@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 const zooImages = [
   {
     src: "_nuxt/assets/zoo/delhi-zoo.jpg",

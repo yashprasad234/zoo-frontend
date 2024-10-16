@@ -4,10 +4,10 @@ const props = defineProps({
   handler: Function,
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "deleteAnimal"]);
 
 async function deletionConfirmed() {
-  props.handler();
+  emits("deleteAnimal");
   emits("update:modelValue", false);
 }
 

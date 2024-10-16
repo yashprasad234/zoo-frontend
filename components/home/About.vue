@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
 
 const userState = useUserStore();

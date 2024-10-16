@@ -4,6 +4,7 @@ import type { ZooType } from "~/types/zoo";
 
 const userState = useUserStore();
 const zooData = ref<ZooType[]>([]);
+const loading = ref(false);
 const isOpen = ref(false);
 
 const handlePopup = () => {
@@ -12,11 +13,14 @@ const handlePopup = () => {
 
 const fetchZoos = async () => {
   try {
+    loading.value = true;
     const res = await useCustomFetch("/zoo/list", {
       method: "GET",
     });
     zooData.value = res as ZooType[];
+    loading.value = false;
   } catch (err) {
+    loading.value = false;
     console.log(err);
   }
 };
@@ -30,34 +34,42 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div
-    v-if="isOpen"
-    class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
-  >
-    <ZooPopup v-model="isOpen" />
-  </div>
-  <div :class="isOpen ? `relative blur-sm` : `relative`">
-    <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
-    <button
-      class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-32 top-8"
-      @click="handlePopup"
-      v-if="userState?.user?.role == 'SUPERADMIN'"
+  <div v-if="loading">Loading...</div>
+  <div v-if="!loading">
+    <div
+      v-if="isOpen"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
     >
-      Add New Zoo
-    </button>
-    <div class="grid grid-cols-12 gap-8 my-8 px-4">
-      <Card
-        v-for="(data, ind) in zooData"
-        :data-id="data.id"
-        :key="ind"
-        class="col-span-4"
-        :zooName="data.name"
-        :location="data.location"
-        :inaugration="data.inaugration"
-        :area="data.area"
-        :description="data.description"
-        :showButtons="true"
-      />
+      <ZooPopup v-model="isOpen" />
+    </div>
+    <div :class="isOpen ? `relative blur-sm` : `relative`">
+      <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
+      {{ console.log(zooData) }}
+      <button
+        :class="
+          zooData.length != 0
+            ? 'bg-primary-forest text-off-white px-4 w-max py-2 absolute right-32 top-8'
+            : 'bg-primary-forest text-off-white px-4 w-max py-2 mx-auto'
+        "
+        @click="handlePopup"
+        v-if="userState?.user?.role == 'SUPERADMIN'"
+      >
+        Add New Zoo
+      </button>
+      <div class="grid grid-cols-12 gap-8 my-8 px-4">
+        <Card
+          v-for="(data, ind) in zooData"
+          :data-id="data.id"
+          :key="ind"
+          class="col-span-4"
+          :zooName="data.name"
+          :location="data.location"
+          :inaugration="data.inaugration"
+          :area="data.area"
+          :description="data.description"
+          :showButtons="true"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -30,7 +30,7 @@ const fetchForgetPassword = async () => {
   }
 };
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await fetchForgetPassword();
   toast.add({ title: message.value });
@@ -49,7 +49,7 @@ const handler = async (e) => {
         </p>
       </div>
       <Form
-        :handler="handler"
+        @submitForm="handler"
         :inputs="inputs"
         submitBtnText="Search"
         v-model="formInputs"

@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
-import Form from "../Form.vue";
 const userState = useUserStore();
 const props = defineProps({
   modelValue: Boolean,
   count: Number,
 });
-const emit = defineEmits(["update:modelValue", "update:count"]);
-const onClick = () => {
-  emit("update:modelValue", !props.modelValue);
-  emit("update:count", props.count + 1);
-};
+const emit = defineEmits(["updateIsOpen", "updateProps"]);
+
 window.addEventListener("keydown", (e) => {
   if (props.modelValue && e.key === "Escape") {
-    onClick();
+    emit("updateIsOpen");
   }
 });
 const route = useRoute();
@@ -53,7 +49,7 @@ const formInputs = ref({
   var4: "",
 });
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/animal/create", {
     method: "POST",
@@ -78,7 +74,7 @@ const handler = async (e) => {
     var3: "",
     var4: "",
   };
-  onClick();
+  emit("updateProps");
 };
 </script>
 
@@ -86,12 +82,12 @@ const handler = async (e) => {
   <div class="flex flex-col gap-2">
     <button
       class="outline outline-2 outline-slate-800 px-2 w-max self-end text-sm"
-      @click="onClick"
+      @click="emit('updateProps')"
     >
       X
     </button>
     <Form
-      :handler="handler"
+      @submitForm="handler"
       :inputs="inputs"
       formName="Add Animal"
       submitBtnText="Submit"

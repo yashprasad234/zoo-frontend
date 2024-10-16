@@ -3,13 +3,13 @@ import { useUserStore } from "~/store/user";
 
 const props = defineProps({
   userName: String,
-  logoutHandler: Function,
   modelValue: Boolean,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "logout"]);
 const onClick = () => {
   emit("update:modelValue", !props.modelValue);
+  navigateTo("/resetPassword");
 };
 const userState = useUserStore();
 </script>
@@ -26,12 +26,11 @@ const userState = useUserStore();
       @click="
         () => {
           onClick();
-          navigateTo('/resetPassword');
         }
       "
     >
       Reset Password
     </button>
-    <button class="py-1" @click="logoutHandler">Logout</button>
+    <button class="py-1" @click="emit('logout')">Logout</button>
   </div>
 </template>

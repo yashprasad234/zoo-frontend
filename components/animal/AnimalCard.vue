@@ -9,11 +9,13 @@ const props = defineProps({
   species: String,
   habitat: String,
   dataId: Number,
-  dob: String,
+  dob: Date,
   handleConfirmation: Function,
 });
 
-const calculateAge = (dob) => {
+const emits = defineEmits(["openConfirmation"]);
+
+const calculateAge = (dob: Date) => {
   const dateOfBirth = new Date(dob);
   const now = new Date();
   let years = now.getFullYear() - dateOfBirth.getFullYear();
@@ -54,7 +56,9 @@ const calculateAge = (dob) => {
         </div>
         <div class="flex justify-between">
           <p class="font-bold text-lg">Habitat : {{ props.habitat }}</p>
-          <p class="font-bold text-lg">Age : {{ calculateAge(props.dob) }}</p>
+          <p class="font-bold text-lg">
+            Age : {{ calculateAge(props.dob as Date) }}
+          </p>
         </div>
       </div>
       <div class="flex text-xs gap-4 justify-around" :data-id="dataId">
@@ -66,9 +70,8 @@ const calculateAge = (dob) => {
           stroke="currentColor"
           v-if="userState?.user?.role == 'SUPERADMIN'"
           @click="
-            (e) => {
-              const el = e.currentTarget;
-              navigateTo(`/zoos/transfer/${el.parentElement.dataset.id}`);
+            () => {
+              navigateTo(`/zoos/transfer/${dataId}`);
             }
           "
           class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
@@ -88,11 +91,7 @@ const calculateAge = (dob) => {
           stroke-width="1.5"
           stroke="currentColor"
           class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
-          @click="
-            () => {
-              handleConfirmation(props.dataId);
-            }
-          "
+          @click="emits('openConfirmation')"
         >
           <path
             stroke-linecap="round"

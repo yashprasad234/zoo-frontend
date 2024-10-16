@@ -6,7 +6,7 @@ const userState = useUserStore();
 
 <template>
   <div
-    v-if="userState?.user == null"
+    v-if="userState?.user.role == ''"
     class="flex flex-col justify-center items-center gap-8"
   >
     <h1 class="text-3xl text-center">Welcome to the Zoo</h1>

@@ -1,9 +1,5 @@
 import { defineStore } from "pinia";
-import jwtDecode from "jwt-decode";
-
-interface DecodedToken {
-  exp: number;
-}
+import type { UserType } from "~/types/user";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -31,6 +27,10 @@ export const useUserStore = defineStore("user", {
         role: "",
         username: "",
       };
+    },
+    setUser(user: UserType) {
+      this.isLoading = false;
+      this.user = user;
     },
   },
 });

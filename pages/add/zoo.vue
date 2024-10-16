@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 
@@ -32,7 +32,7 @@ const formInputs = ref({
   var3: "",
 });
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/super/zoo/create", {
     method: "POST",
@@ -54,7 +54,7 @@ const handler = async (e) => {
 <template>
   <div class="p-4 flex justify-center bg-primary-earth">
     <Form
-      :handler="handler"
+      @submitForm="handler"
       :inputs="inputs"
       formName="Add Zoo"
       submitBtnText="Whatup"

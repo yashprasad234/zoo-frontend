@@ -114,13 +114,28 @@ onBeforeMount(() => {
       v-if="confimationPopup"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
-      <ConfirmationPopup v-model="confimationPopup" :handler="handler" />
+      <ConfirmationPopup v-model="confimationPopup" @delete-animal="handler" />
     </div>
     <div
       v-if="isOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 absolute top-0 left-1/2 transform -translate-x-1/2"
     >
-      <AnimalPopup v-if="isOpen" v-model="isOpen" v-model:count="count" />
+      <AnimalPopup
+        v-if="isOpen"
+        v-model="isOpen"
+        count="count"
+        @updateIsOpen="
+          () => {
+            isOpen = false;
+          }
+        "
+        @updateProps="
+          () => {
+            isOpen = !isOpen.value;
+            count = count.value + 1;
+          }
+        "
+      />
     </div>
     <div :class="isOpen || confimationPopup ? `relative blur-sm` : `relative`">
       <div class="font-serif relative">
@@ -172,7 +187,7 @@ onBeforeMount(() => {
             :habitat="animal.habitat"
             :dob="animal.dob"
             :dataId="animal.id"
-            :handleConfirmation="handleConfirmation"
+            @openConfirmation="handleConfirmation"
             class="col-span-4 row-span-3"
           />
         </div>

@@ -1,6 +1,5 @@
 <script setup="ts">
 import { useUserStore } from "~/store/user";
-import Form from "../Form.vue";
 const userState = useUserStore();
 const props = defineProps({
   modelValue: Boolean,
@@ -80,7 +79,7 @@ const handler = async (e) => {
     </button>
     <div class="flex justify-center">
       <Form
-        :handler="handler"
+        @submitForm="handler"
         :inputs="inputs"
         formName="Add Zoo"
         submitBtnText="Submit"

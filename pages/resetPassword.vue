@@ -47,7 +47,7 @@ const handler = async (e) => {
 <template>
   <div class="bg-primary-earth h-screen flex justify-center items-center">
     <Form
-      :handler="handler"
+      @submitForm="handler"
       :inputs="inputs"
       formName="Reset Password"
       submitBtnText="Submit"

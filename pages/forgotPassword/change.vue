@@ -44,7 +44,7 @@ const updatePassword = async () => {
   }
 };
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await updatePassword();
   formInputs.value.var0 = "";
@@ -69,7 +69,7 @@ const handler = async (e) => {
         </p>
       </div>
       <Form
-        :handler="handler"
+        @submitForm="handler"
         :inputs="inputs"
         submitBtnText="Change Password"
         v-model="formInputs"

@@ -2,32 +2,23 @@
 import { useUserStore } from "~/store/user";
 import { useMenuStore } from "~/store/menu";
 import { userMenu } from "~/data/menu";
+import type { UserType } from "~/types/user";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
 const isOpen = ref(false);
 
-const navMenu = new Map();
-navMenu.set("Home", "/");
-navMenu.set("About", "/#about");
-navMenu.set("Contact", "/#contact");
-
 async function fetchMe() {
-  if (!userState?.isLoading && userState?.user != null) {
+  if (!userState?.isLoading && userState?.user.role != "") {
     return;
   } else {
     try {
       const res = await useCustomFetch(`/me`, {
         method: "GET",
       });
-      userState.$patch({
-        isLoading: false,
-        user: res,
-      });
-
-      const menu = userMenu;
-
-      menuState.$patch({ menu: menu });
+      console.log(menuState.menu);
+      menuState.$patch({ menu: userMenu });
+      userState.setUser(res as UserType);
     } catch (err) {
       localStorage.removeItem("user-token");
     }
@@ -42,7 +33,7 @@ async function handleLogout() {
     localStorage.removeItem("user-token");
     userState.notFound();
     navigateTo("/login");
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.response);
     console.log(err.response._data.message);
   }
@@ -66,9 +57,9 @@ onBeforeMount(() => {
 
     <div v-if="userState?.isLoading"></div>
     <div>
-      <div v-if="userState?.user != null" class="flex gap-16 items-center">
+      <div v-if="userState?.user.role != ''" class="flex gap-16 items-center">
         <div
-          v-for="([name, href], index) in menuState?.menu"
+          v-for="([name, href], index) in menuState.menu"
           class="flex justify-between gap-16"
         >
           <MenuButton :key="index" :name="name" :href="href" />
@@ -77,16 +68,16 @@ onBeforeMount(() => {
       </div>
       <AvatarPopup
         v-if="isOpen"
-        :logoutHandler="logout"
+        @logout="logout"
         :userName="userState?.user.username"
         v-model="isOpen"
       />
       <div
-        v-if="!userState?.isLoading && userState?.user == null"
+        v-if="!userState?.isLoading && userState?.user.role == ''"
         class="flex gap-16 items-center"
       >
         <div
-          v-for="([name, href], index) in navMenu"
+          v-for="([name, href], index) in menuState.menu"
           class="flex justify-between gap-16"
         >
           <MenuButton :key="index" :name="name" :href="href" />

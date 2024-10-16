@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 const animalData = [
   {
     src: "/_nuxt/assets/animals/RhinoAndMom.webp",

@@ -32,22 +32,17 @@ const props = defineProps({
         quasi natus laborum.`
           }}
         </p>
-        <div
-          class="flex text-xs gap-4 justify-around mt-2"
-          :data-id="dataId"
-          v-if="showButtons"
-        >
+        <div class="flex text-xs gap-4 justify-around mt-2" v-if="showButtons">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            v-if="userState?.user?.role"
+            v-if="userState?.user?.role != ''"
             @click="
-              (e) => {
-                const el = e.currentTarget;
-                navigateTo(`/zoos/${el.parentElement.dataset.id}`);
+              () => {
+                navigateTo(`/zoos/${dataId}`);
               }
             "
             class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
@@ -72,9 +67,8 @@ const props = defineProps({
             stroke="currentColor"
             class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
             @click="
-              (e) => {
-                const el = e.currentTarget;
-                navigateTo(`/zoos/${el.parentElement.dataset.id}`);
+              () => {
+                navigateTo(`/zoos/${dataId}`);
               }
             "
           >

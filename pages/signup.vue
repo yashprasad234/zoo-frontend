@@ -1,8 +1,4 @@
-<script setup="ts">
-import { ref } from "vue";
-import { useCustomFetch } from "~/composables/useCustomFetch";
-import Form from "~/components/Form.vue";
-
+<script setup lang="ts">
 const inputs = [
   {
     type: "formInputs",
@@ -46,14 +42,14 @@ async function fetchData() {
       });
       message.value = "User created successfully";
       navigateTo(`/login`);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err.response);
       message.value = err.value.data.message;
     }
   }
 }
 
-async function handler(e) {
+async function handler(e: Event) {
   e.preventDefault();
   await fetchData();
   formInputs.value.var0 = "";
@@ -69,7 +65,7 @@ async function handler(e) {
       class="flex flex-col justify-center items-center w-1/3 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl mt-8"
     >
       <Form
-        :handler="handler"
+        @submitForm="handler"
         :inputs="inputs"
         formName="Signup"
         submitBtnText="Signup"
