@@ -104,7 +104,7 @@ onMounted(() => {
     </div>
     <div
       v-if="isOpen"
-      class="bg-white z-30 w-max shadow-2xl px-4 py-2 absolute top-0 left-1/2 transform -translate-x-1/2"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
       <AnimalPopup
         v-if="isOpen"
@@ -124,8 +124,8 @@ onMounted(() => {
     <div
       :class="
         isOpen || confimationPopup || transferPopup
-          ? `relative blur-sm`
-          : `relative`
+          ? `relative blur-sm `
+          : `relative `
       "
     >
       <div v-if="loadingZooData">Loading...</div>

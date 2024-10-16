@@ -17,12 +17,12 @@ const formInputs = ref({
 const fetchForgetPassword = async () => {
   try {
     const res = await useCustomFetch("/forgotpassword", {
-      method: "POST",
-      // headers: {
-      //   "X-Email": formInputs.value.var0,
-      // },
-      body: formInputs.value.var0,
+      method: "GET",
+      query: {
+        email: formInputs.value.var0,
+      },
     });
+    navigateTo(res as string);
     message.value = "User found in DB";
   } catch (err: any) {
     console.log(err.response);
@@ -55,6 +55,7 @@ const handler = async (e: Event) => {
         v-model="formInputs"
         class="flex flex-col gap-12 w-full"
         :noBorder="true"
+        gap="gap-6"
       />
     </div>
   </div>

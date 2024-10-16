@@ -13,6 +13,7 @@ export function useCustomFetch<T>(
       : {},
   };
   let mergedOptions = {};
+  options.headers = { ...options.headers, ...defaults.headers };
   mergedOptions = { ...defaults, ...options };
   return $fetch(url, mergedOptions);
 }

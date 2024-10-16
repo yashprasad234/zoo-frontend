@@ -38,7 +38,7 @@ const calculateAge = (dob: Date) => {
       alt="zoo"
       class="object-cover h-72"
     />
-    <div class="flex flex-col gap-4 px-4 py-2">
+    <div class="flex flex-col gap-4 p-4">
       <p
         class="bg-primary-forest text-off-white px-4 py-2 text-xl font-bold w-max"
       >

@@ -32,10 +32,10 @@ async function fetchData() {
     try {
       const res = useCustomFetch("/signup", {
         method: "POST",
-        body: JSON.stringify({
+        body: {
           username: formInputs.value.var0,
           password: formInputs.value.var1,
-        }),
+        },
         headers: {
           "Content-Type": "application/json",
         },
@@ -70,7 +70,7 @@ async function handler(e: Event) {
         formName="Signup"
         submitBtnText="Signup"
         v-model="formInputs"
-        class="flex flex-col gap-8 w-full"
+        gap="gap-6"
         :noBorder="true"
       />
       <p class="text-xl text-slate-800">

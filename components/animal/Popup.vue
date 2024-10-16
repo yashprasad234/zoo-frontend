@@ -53,7 +53,7 @@ const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/animal/create", {
     method: "POST",
-    body: JSON.stringify({
+    body: {
       zooId: route.params.id,
       name: formInputs.value.var0,
       gender: formInputs.value.var1,
@@ -61,7 +61,7 @@ const handler = async (e: Event) => {
       habitat: formInputs.value.var3,
       animalImg: formInputs.value.var4,
       userId: userState?.user?.id,
-    }),
+    },
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -92,7 +92,8 @@ const handler = async (e: Event) => {
       formName="Add Animal"
       submitBtnText="Submit"
       v-model="formInputs"
-      class="flex flex-col gap-8 w-full"
+      gap="gap-4"
+      :no-border="true"
     />
   </div>
 </template>

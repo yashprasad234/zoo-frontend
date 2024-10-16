@@ -7,7 +7,7 @@ const props = defineProps({
   formName: String,
   modelValue: Object,
   noBorder: Boolean,
-  class: { type: String, default: "flex flex-col gap-12 w-full" },
+  gap: { type: String, default: "gap-4" },
 });
 
 const emit = defineEmits(["update:modelValue", "submitForm"]);
@@ -22,8 +22,8 @@ const updateValue = (index: number, value: any) => {
   <div
     :class="
       noBorder
-        ? 'flex flex-col items-center w-max gap-8 h-max bg-white py-4 px-12 rounded-xl font-serif'
-        : 'flex flex-col items-center w-max gap-8 h-max bg-white py-4 px-12 rounded-xl font-serif border border-2 border-slate-800'
+        ? `flex flex-col items-center w-max ${gap} h-max py-4 px-12 rounded-xl font-serif`
+        : `flex flex-col items-center w-max ${gap} h-max py-4 px-12 rounded-xl font-serif border border-2 border-slate-800`
     "
   >
     <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
@@ -33,7 +33,7 @@ const updateValue = (index: number, value: any) => {
           emit('submitForm', e);
         }
       "
-      :class="class"
+      :class="`flex flex-col w-full ${gap}`"
     >
       <div v-for="(input, ind) of inputs">
         <CustomInput
@@ -48,7 +48,7 @@ const updateValue = (index: number, value: any) => {
       </div>
       <button
         type="submit"
-        class="outline outline-2 px-4 py-2 text-xl text-off-white bg-primary-forest w-full"
+        class="outline outline-2 px-2 py-1 text-xl text-off-white bg-primary-forest w-full"
       >
         {{ props.submitBtnText }}
       </button>

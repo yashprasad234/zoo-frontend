@@ -27,9 +27,9 @@ const updatePassword = async () => {
     } else {
       const res = await useCustomFetch("/changePassword", {
         method: "PUT",
-        body: JSON.stringify({
+        body: {
           password: formInputs.value.var0,
-        }),
+        },
         headers: {
           "Content-Type": "Application/JSON",
           Authorization: `Bearer ${route.query.token}`,
@@ -75,6 +75,7 @@ const handler = async (e: Event) => {
         v-model="formInputs"
         class="flex flex-col gap-12 w-full"
         :noBorder="true"
+        gap="gap-6"
       />
     </div>
   </div>

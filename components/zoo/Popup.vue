@@ -47,13 +47,13 @@ const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/zoo/create", {
     method: "POST",
-    body: JSON.stringify({
+    body: {
       name: formInputs.value.var0,
       location: formInputs.value.var1,
       area: +formInputs.value.var2,
       description: formInputs.value.var3,
       userId: userState?.user?.id,
-    }),
+    },
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("user-token")}`,
@@ -77,14 +77,15 @@ const handler = async (e: Event) => {
     >
       X
     </button>
-    <div class="flex justify-center">
+    <div class="flex justify-center py-4">
       <Form
         @submitForm="handler"
         :inputs="inputs"
         formName="Add Zoo"
         submitBtnText="Submit"
         v-model="formInputs"
-        class="flex flex-col gap-8 w-full"
+        gap="gap-4"
+        :noBorder="true"
       />
     </div>
   </div>

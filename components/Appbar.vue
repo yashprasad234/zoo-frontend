@@ -56,7 +56,7 @@ onBeforeMount(() => {
 
 <template>
   <div
-    class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-50 font-serif"
+    class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-50 font-serif shadow-xl"
   >
     <div class="text-3xl">ZOO</div>
 

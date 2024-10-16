@@ -32,10 +32,10 @@ async function fetchData() {
   try {
     const res = await useCustomFetch("/login", {
       method: "POST",
-      body: JSON.stringify({
+      body: {
         username: formInputs.value.var0,
         password: formInputs.value.var1,
-      }),
+      },
       headers: {
         "Content-Type": "application/json",
       },
@@ -64,11 +64,11 @@ async function handler(e: Event) {
 
 <template>
   <div
-    class="bg-primary-earth h-screen flex justify-center font-serif text-off-white"
+    class="bg-primary-earth h-screen flex justify-center font-serif text-off-white items-center"
     v-if="userState?.user.role == ''"
   >
     <div
-      class="flex flex-col justify-center items-center w-1/3 gap-12 h-max bg-white w-max py-20 px-12 rounded-xl mt-4"
+      class="flex flex-col justify-center items-center w-1/3 gap-8 h-min bg-white w-max rounded-xl px-4 py-8"
     >
       <Form
         @submitForm="handler"
@@ -76,25 +76,26 @@ async function handler(e: Event) {
         formName="Login"
         submitBtnText="Login"
         v-model="formInputs"
-        class="flex flex-col gap-12 w-full"
+        gap="gap-8"
         :noBorder="true"
       />
-
-      <p class="text-xl text-slate-800">
-        Don't have an account?
-        <span
-          @click="navigateTo('/signup')"
-          class="text-primary-forest hover:underline cursor-pointer"
-          >Signup</span
+      <div class="flex flex-col gap-4 items-center">
+        <p
+          type="submit"
+          class="text-md text-black underline cursor pointer"
+          @click="navigateTo('/forgotPassword')"
         >
-      </p>
-      <button
-        type="submit"
-        class="outline outline-2 px-4 py-2 text-xl text-white bg-soft-beige -mt-6 -mb-12"
-        @click="navigateTo('/forgotPassword')"
-      >
-        Forgot Password
-      </button>
+          Forgot Password?
+        </p>
+        <p class="text-xl text-slate-800">
+          Don't have an account?
+          <span
+            @click="navigateTo('/signup')"
+            class="text-primary-forest hover:underline cursor-pointer"
+            >Signup</span
+          >
+        </p>
+      </div>
     </div>
   </div>
 </template>

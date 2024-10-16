@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const inputs = [
   {
-    type: "text",
+    type: "password",
     placeholder: "Enter Old Password",
     required: true,
   },
   {
-    type: "text",
+    type: "password",
     placeholder: "Enter New Password",
     required: true,
   },
   {
-    type: "text",
+    type: "password",
     placeholder: "Confirm New Password",
     required: true,
   },
@@ -27,13 +27,12 @@ const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/animal/create", {
     method: "POST",
-    body: JSON.stringify({
+    body: {
       oldPassword: formInputs.value.var0,
       newPassword: formInputs.value.var1,
-    }),
+    },
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("user-token")}`,
     },
   });
   formInputs.value = {
@@ -52,6 +51,7 @@ const handler = async (e: Event) => {
       submitBtnText="Submit"
       v-model="formInputs"
       :noBorder="true"
+      gap="gap-6"
     />
   </div>
 </template>

@@ -17,7 +17,7 @@ const emit = defineEmits(["transferAnimal", "closePopup"]);
 
 const fetchAllZoos = async () => {
   try {
-    const res = await useCustomFetch("/zoo/list", {
+    const res = await useCustomFetch("/zoo/all", {
       method: "GET",
     });
     allZoos.value = (res as ZooType[]).filter((zoo) => {
