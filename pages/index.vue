@@ -38,7 +38,7 @@
     <FeaturedZoos />
   </div>
   <div id="animal-spotlight" class="mb-8">
-    <AnimalSpotlight />
+    <HomeAnimalSpotlight />
   </div>
   <div id="cta" class="mb-8">
     <CTA />

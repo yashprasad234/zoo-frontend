@@ -12,7 +12,7 @@ const props = defineProps({
   dob: Date,
 });
 
-const emits = defineEmits(["openConfirmation"]);
+const emits = defineEmits(["openConfirmation", "openTransfer"]);
 
 const calculateAge = (dob: Date) => {
   const dateOfBirth = new Date(dob);
@@ -62,11 +62,7 @@ const calculateAge = (dob: Date) => {
           stroke-width="1.5"
           stroke="currentColor"
           v-if="userState?.user?.role == 'SUPERADMIN'"
-          @click="
-            () => {
-              navigateTo(`/zoos/transfer/${dataId}`);
-            }
-          "
+          @click="emits('openTransfer')"
           class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
         >
           <path

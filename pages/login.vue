@@ -48,8 +48,8 @@ async function fetchData() {
     message.value = "Logged in!";
     navigateTo(`/dashboard`);
   } catch (err: any) {
-    console.log(err.response._data.message);
-    message.value = err.response._data.message;
+    console.log(err);
+    message.value = err;
   }
 }
 

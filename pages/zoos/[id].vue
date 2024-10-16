@@ -2,79 +2,51 @@
 import { useUserStore } from "~/store/user";
 import type { AnimalType } from "~/types/animal";
 import type { ZooType } from "~/types/zoo";
+import { formatDateFromTimestamp } from "~/utils/util";
 
 const zoo = ref<ZooType>();
 const animals = ref<AnimalType[]>();
 const isOpen = ref(false);
 const confimationPopup = ref(false);
-const selectedAnimalId = ref(0);
+const transferPopup = ref(false);
+const selectedAnimal = ref<AnimalType>();
 const loadingZooData = ref(false);
 const loadingAnimalData = ref(false);
 const userState = useUserStore();
 const route = useRoute();
-const count = useState("count", () => 0);
 
-function formatDateFromTimestamp(timestamp: number) {
-  const date = new Date(timestamp);
-  const day = date.getDate();
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  const ordinalSuffix = (day: number) => {
-    if (day > 3 && day < 21) return "th";
-    switch (day % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  };
-
-  return `${day}${ordinalSuffix(day)} ${month}, ${year}`;
-}
-
-const handlePopup = () => {
-  isOpen.value = !isOpen.value;
-  count.value += 1;
-};
-
-const handleConfirmation = (id: number) => {
-  selectedAnimalId.value = id;
+const handleConfirmation = (animal: AnimalType) => {
+  selectedAnimal.value = animal;
   confimationPopup.value = true;
 };
 
-const handleDelete = async (id: number) => {
+const handleDelete = async () => {
   try {
-    const res = await useCustomFetch(`/animal/id/${id}`, {
+    const res = await useCustomFetch(`/animal/id/${selectedAnimal.value?.id}`, {
       method: "DELETE",
     });
-    count.value += 1;
   } catch (err) {
     console.log(err);
   }
 };
 
-function handler() {
-  handleDelete(selectedAnimalId.value);
-}
+const handleTransfer = async (zooId: number) => {
+  if (zooId == 0) return;
+  else {
+    try {
+      const res = await useCustomFetch(
+        `/animal/id/${selectedAnimal.value?.id}?zooId=${zooId}`,
+        {
+          method: "PUT",
+        }
+      );
+      transferPopup.value = false;
+      fetchAnimals();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+};
 
 const fetchAnimals = async () => {
   try {
@@ -98,11 +70,7 @@ const fetchZoo = async () => {
   }
 };
 
-watch(count, () => {
-  fetchAnimals();
-});
-
-onBeforeMount(() => {
+onMounted(() => {
   fetchZoo();
   fetchAnimals();
 });
@@ -114,7 +82,25 @@ onBeforeMount(() => {
       v-if="confimationPopup"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
-      <ConfirmationPopup v-model="confimationPopup" @delete-animal="handler" />
+      <ConfirmationPopup
+        v-model="confimationPopup"
+        @delete-animal="handleDelete"
+      />
+    </div>
+    <div
+      v-if="transferPopup"
+      class="bg-white z-30 w-1/4 shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <AnimalTransferPopup
+        v-model="transferPopup"
+        :animal-info="selectedAnimal"
+        @transfer-animal="handleTransfer"
+        @close-popup="
+          () => {
+            transferPopup = false;
+          }
+        "
+      />
     </div>
     <div
       v-if="isOpen"
@@ -123,7 +109,6 @@ onBeforeMount(() => {
       <AnimalPopup
         v-if="isOpen"
         v-model="isOpen"
-        :count="count"
         @updateIsOpen="
           () => {
             isOpen = false;
@@ -132,13 +117,17 @@ onBeforeMount(() => {
         @updateProps="
           () => {
             isOpen = !isOpen;
-            count = count + 1;
           }
         "
       />
     </div>
-    <div :class="isOpen || confimationPopup ? `relative blur-sm` : `relative`">
-      {{ console.log(loadingZooData) }}
+    <div
+      :class="
+        isOpen || confimationPopup || transferPopup
+          ? `relative blur-sm`
+          : `relative`
+      "
+    >
       <div v-if="loadingZooData">Loading...</div>
       <div v-if="!loadingZooData" class="font-serif relative">
         <img
@@ -177,7 +166,11 @@ onBeforeMount(() => {
               userState?.user?.role == 'SUPERADMIN'
             "
             class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
-            @click="handlePopup"
+            @click="
+              () => {
+                isOpen = !isOpen;
+              }
+            "
           >
             Add New Animal
           </button>
@@ -192,7 +185,17 @@ onBeforeMount(() => {
               :habitat="animal.habitat"
               :dob="animal.dob"
               :dataId="animal.id"
-              @openConfirmation="handleConfirmation"
+              @openConfirmation="
+                () => {
+                  handleConfirmation(animal);
+                }
+              "
+              @openTransfer="
+                () => {
+                  selectedAnimal = animal;
+                  transferPopup = true;
+                }
+              "
               class="col-span-4 row-span-3"
             />
           </div>
@@ -201,7 +204,11 @@ onBeforeMount(() => {
           <h1 class="text-4xl my-8 font-serif text-center">
             <span
               class="text-primary-forest underline cursor-pointer"
-              @click="handlePopup"
+              @click="
+                () => {
+                  isOpen != isOpen;
+                }
+              "
               >Add Animals</span
             >
             to See the List Here
