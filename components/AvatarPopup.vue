@@ -21,14 +21,7 @@ const userState = useUserStore();
     <button class="border-b-2 border-slate-800 py-2">
       {{ userName }}
     </button>
-    <button
-      class="border-b-2 border-slate-800 py-2"
-      @click="
-        () => {
-          onClick();
-        }
-      "
-    >
+    <button class="border-b-2 border-slate-800 py-2" @click="onClick">
       Reset Password
     </button>
     <button class="py-1" @click="emit('logout')">Logout</button>

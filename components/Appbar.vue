@@ -9,17 +9,22 @@ const menuState = useMenuStore();
 const isOpen = ref(false);
 
 async function fetchMe() {
-  if (!userState?.isLoading && userState?.user.role != "") {
-    return;
-  } else {
-    try {
-      const res = await useCustomFetch(`/me`, {
-        method: "GET",
-      });
-      menuState.$patch({ menu: userMenu });
-      userState.setUser(res as UserType);
-    } catch (err) {
-      localStorage.removeItem("user-token");
+  const token = localStorage.getItem("user-token");
+  if (!token) navigateTo("/login");
+  else {
+    if (!userState?.isLoading && userState?.user.role != "") {
+      return;
+    } else {
+      try {
+        const res = await useCustomFetch(`/me`, {
+          method: "GET",
+        });
+        menuState.$patch({ menu: userMenu });
+        userState.setUser(res as UserType);
+      } catch (err) {
+        menuState.reset();
+        localStorage.removeItem("user-token");
+      }
     }
   }
 }
@@ -29,12 +34,13 @@ async function handleLogout() {
     const res = await useCustomFetch(`/logout`, {
       method: "PUT",
     });
-    localStorage.removeItem("user-token");
     userState.notFound();
+    menuState.reset();
+    localStorage.removeItem("user-token");
     navigateTo("/login");
   } catch (err: any) {
     console.log(err.response);
-    console.log(err.response._data.message);
+    console.log(err.response.data.message);
   }
 }
 

@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
-
-const defaultMenu = new Map();
-defaultMenu.set("Home", "/");
-defaultMenu.set("About", "/#about");
-defaultMenu.set("Contact", "/#contact");
+import { defaultMenu } from "~/data/menu";
 
 export const useMenuStore = defineStore("menu", {
   state: () => ({ menu: defaultMenu }),
+  actions: {
+    reset() {
+      this.menu = defaultMenu;
+    },
+  },
 });

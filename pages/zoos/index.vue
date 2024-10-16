@@ -44,7 +44,6 @@ onMounted(() => {
     </div>
     <div :class="isOpen ? `relative blur-sm` : `relative`">
       <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
-      {{ console.log(zooData) }}
       <button
         :class="
           zooData.length != 0
