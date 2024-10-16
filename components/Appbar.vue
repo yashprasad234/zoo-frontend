@@ -16,7 +16,6 @@ async function fetchMe() {
       const res = await useCustomFetch(`/me`, {
         method: "GET",
       });
-      console.log(menuState.menu);
       menuState.$patch({ menu: userMenu });
       userState.setUser(res as UserType);
     } catch (err) {

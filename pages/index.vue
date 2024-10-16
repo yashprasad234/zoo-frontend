@@ -1,9 +1,3 @@
-<script setup="ts">
-import FeaturedZoos from "~/components/home/FeaturedZoos.vue";
-import About from "~/components/home/About.vue";
-import AnimalSpotlight from "~/components/home/AnimalSpotlight.vue";
-import CTA from "~/components/home/CTA.vue";
-</script>
 <template>
   <div
     class="bg-[url('~/assets/animals/WhiteBengalTiger.webp')] opacity-70 h-screen bg-cover bg-no-repeat w-full bg-opacity-30 relative"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const props = defineProps({
   modelValue: Boolean,
-  handler: Function,
 });
 
 const emits = defineEmits(["update:modelValue", "deleteAnimal"]);

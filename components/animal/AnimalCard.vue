@@ -3,14 +3,13 @@ import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 
 const props = defineProps({
-  animalName: String,
+  name: String,
   gender: String,
   img: String,
   species: String,
   habitat: String,
   dataId: Number,
   dob: Date,
-  handleConfirmation: Function,
 });
 
 const emits = defineEmits(["openConfirmation"]);
@@ -35,11 +34,7 @@ const calculateAge = (dob: Date) => {
     class="flex flex-col gap-2 shadow-lg border-2 border-charcoal-black-500 text-charcoal-black font-serif"
   >
     <img
-      :src="
-        props.img != null
-          ? `${props.img}`
-          : '/_nuxt/assets/animals/AsiaticLion.webp'
-      "
+      :src="img != null ? `${img}` : '/_nuxt/assets/animals/AsiaticLion.webp'"
       alt="zoo"
       class="object-cover h-72"
     />
@@ -47,18 +42,16 @@ const calculateAge = (dob: Date) => {
       <p
         class="bg-primary-forest text-off-white px-4 py-2 text-xl font-bold w-max"
       >
-        {{ props.animalName || props.species }}
+        {{ name || species }}
       </p>
       <div class="flex flex-col gap-4">
         <div class="flex justify-between">
-          <p class="font-bold text-lg">Gender : {{ props.gender }}</p>
-          <p class="font-bold text-lg">Species : {{ props.species }}</p>
+          <p class="font-bold text-lg">Gender : {{ gender }}</p>
+          <p class="font-bold text-lg">Species : {{ species }}</p>
         </div>
         <div class="flex justify-between">
-          <p class="font-bold text-lg">Habitat : {{ props.habitat }}</p>
-          <p class="font-bold text-lg">
-            Age : {{ calculateAge(props.dob as Date) }}
-          </p>
+          <p class="font-bold text-lg">Habitat : {{ habitat }}</p>
+          <p class="font-bold text-lg">Age : {{ calculateAge(dob as Date) }}</p>
         </div>
       </div>
       <div class="flex text-xs gap-4 justify-around" :data-id="dataId">

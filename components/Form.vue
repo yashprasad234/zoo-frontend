@@ -2,7 +2,6 @@
 import type { PropType } from "vue";
 import type { FormInputType } from "~/types/input";
 const props = defineProps({
-  handler: Function,
   inputs: Array as PropType<FormInputType[]>,
   submitBtnText: String,
   formName: String,
@@ -28,7 +27,14 @@ const updateValue = (index: number, value: any) => {
     "
   >
     <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
-    <form @submit="emit('submitForm')" :class="class">
+    <form
+      @submit="
+        (e: Event) => {
+          emit('submitForm', e);
+        }
+      "
+      :class="class"
+    >
       <div v-for="(input, ind) of inputs">
         <CustomInput
           v-if="modelValue"

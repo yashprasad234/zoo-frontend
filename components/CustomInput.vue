@@ -4,13 +4,12 @@ const props = defineProps({
   modelValue: String,
   placeholder: String,
   required: Boolean,
-  update: Function,
 });
-// Emit event to update the parent
+
 const emit = defineEmits(["update:modelValue"]);
-// Method to emit the new value when input changes
+
 const onInputChange = (event: Event) => {
-  emit("update:modelValue", event?.target?.value);
+  emit("update:modelValue", (event?.target as HTMLInputElement).value);
 };
 </script>
 

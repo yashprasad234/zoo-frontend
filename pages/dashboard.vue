@@ -1,5 +1,5 @@
-<script setup="ts">
-import { useUserStore } from "~/store/user.ts";
+<script setup lang="ts">
+import { useUserStore } from "~/store/user";
 
 const arr = [1, 2, 3, 4, 5, 6];
 

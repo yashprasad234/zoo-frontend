@@ -1,20 +1,20 @@
-<script setup="ts">
-import AnimalPopup from "~/components/animal/AnimalPopup.vue";
-import AnimalCard from "~/components/animal/AnimalCard.vue";
-import ConfirmationPopup from "~/components/ConfirmationPopup.vue";
-import { useCustomFetch } from "~/composables/useCustomFetch";
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
+import type { AnimalType } from "~/types/animal";
+import type { ZooType } from "~/types/zoo";
 
-const zoo = ref(null);
-const animals = ref(null);
+const zoo = ref<ZooType>();
+const animals = ref<AnimalType[]>();
 const isOpen = ref(false);
 const confimationPopup = ref(false);
-const selectedAnimalId = ref(null);
+const selectedAnimalId = ref(0);
+const loadingZooData = ref(false);
+const loadingAnimalData = ref(false);
 const userState = useUserStore();
 const route = useRoute();
 const count = useState("count", () => 0);
 
-function formatDateFromTimestamp(timestamp) {
+function formatDateFromTimestamp(timestamp: number) {
   const date = new Date(timestamp);
   const day = date.getDate();
   const monthNames = [
@@ -34,7 +34,7 @@ function formatDateFromTimestamp(timestamp) {
   const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
 
-  const ordinalSuffix = (day) => {
+  const ordinalSuffix = (day: number) => {
     if (day > 3 && day < 21) return "th";
     switch (day % 10) {
       case 1:
@@ -56,12 +56,12 @@ const handlePopup = () => {
   count.value += 1;
 };
 
-const handleConfirmation = (id) => {
+const handleConfirmation = (id: number) => {
   selectedAnimalId.value = id;
   confimationPopup.value = true;
 };
 
-const handleDelete = async (id) => {
+const handleDelete = async (id: number) => {
   try {
     const res = await useCustomFetch(`/animal/id/${id}`, {
       method: "DELETE",
@@ -81,7 +81,7 @@ const fetchAnimals = async () => {
     const res = await useCustomFetch(`/animal/zoo/${route.params.id}`, {
       method: "GET",
     });
-    animals.value = res;
+    animals.value = res as AnimalType[];
   } catch (err) {
     console.log(err);
   }
@@ -92,7 +92,7 @@ const fetchZoo = async () => {
     const res = await useCustomFetch(`/zoo/id/${route.params.id}`, {
       method: "GET",
     });
-    zoo.value = res;
+    zoo.value = res as ZooType;
   } catch (err) {
     console.log(err);
   }
@@ -123,7 +123,7 @@ onBeforeMount(() => {
       <AnimalPopup
         v-if="isOpen"
         v-model="isOpen"
-        count="count"
+        :count="count"
         @updateIsOpen="
           () => {
             isOpen = false;
@@ -131,14 +131,16 @@ onBeforeMount(() => {
         "
         @updateProps="
           () => {
-            isOpen = !isOpen.value;
-            count = count.value + 1;
+            isOpen = !isOpen;
+            count = count + 1;
           }
         "
       />
     </div>
     <div :class="isOpen || confimationPopup ? `relative blur-sm` : `relative`">
-      <div class="font-serif relative">
+      {{ console.log(loadingZooData) }}
+      <div v-if="loadingZooData">Loading...</div>
+      <div v-if="!loadingZooData" class="font-serif relative">
         <img
           src="/assets/zoo/delhi-zoo.jpg"
           alt="zoo-img"
@@ -155,52 +157,56 @@ onBeforeMount(() => {
           </p>
           <div class="flex justify-between">
             <p class="text-xl font-semibold">
-              Inaugrated on: {{ formatDateFromTimestamp(zoo?.inaugration) }}
+              Inaugrated on:
+              {{ formatDateFromTimestamp(zoo?.inaugration as number) }}
             </p>
             <p class="text-xl font-semibold">Area: {{ zoo?.area }} Acres</p>
           </div>
         </div>
       </div>
-      <div
-        v-if="animals != null"
-        class="flex flex-col gap-8 font-serif my-12 relative"
-      >
-        <h3 class="text-4xl font-bold text-center">Our animals</h3>
-        <button
-          v-if="
-            userState?.user?.role == 'ADMIN' ||
-            userState?.user?.role == 'SUPERADMIN'
-          "
-          class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
-          @click="handlePopup"
+      <div v-if="loadingAnimalData">Loading...</div>
+      <div v-if="!loadingAnimalData">
+        <div
+          v-if="animals != null"
+          class="flex flex-col gap-8 font-serif my-12 relative"
         >
-          Add New Animal
-        </button>
-        <div class="grid grid-cols-12 grid-rows-12 gap-8 my-8 px-4">
-          <AnimalCard
-            v-for="(animal, ind) in animals"
-            :key="ind"
-            :animalName="animal.name"
-            :gender="animal.gender"
-            :img="animal.animalImg"
-            :species="animal.species"
-            :habitat="animal.habitat"
-            :dob="animal.dob"
-            :dataId="animal.id"
-            @openConfirmation="handleConfirmation"
-            class="col-span-4 row-span-3"
-          />
-        </div>
-      </div>
-      <div v-else>
-        <h1 class="text-4xl my-8 font-serif text-center">
-          <span
-            class="text-primary-forest underline cursor-pointer"
+          <h3 class="text-4xl font-bold text-center">Our animals</h3>
+          <button
+            v-if="
+              userState?.user?.role == 'ADMIN' ||
+              userState?.user?.role == 'SUPERADMIN'
+            "
+            class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
             @click="handlePopup"
-            >Add Animals</span
           >
-          to See the List Here
-        </h1>
+            Add New Animal
+          </button>
+          <div class="grid grid-cols-12 grid-rows-12 gap-8 my-8 px-4">
+            <AnimalCard
+              v-for="(animal, ind) in animals"
+              :key="ind"
+              :name="animal.name"
+              :gender="animal.gender"
+              :img="animal.animalImg"
+              :species="animal.species"
+              :habitat="animal.habitat"
+              :dob="animal.dob"
+              :dataId="animal.id"
+              @openConfirmation="handleConfirmation"
+              class="col-span-4 row-span-3"
+            />
+          </div>
+        </div>
+        <div v-if="animals == null">
+          <h1 class="text-4xl my-8 font-serif text-center">
+            <span
+              class="text-primary-forest underline cursor-pointer"
+              @click="handlePopup"
+              >Add Animals</span
+            >
+            to See the List Here
+          </h1>
+        </div>
       </div>
     </div>
   </div>

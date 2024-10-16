@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 const inputs = [
   {
     type: "text",
@@ -23,7 +23,7 @@ const formInputs = ref({
   var2: "",
 });
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/animal/create", {
     method: "POST",
@@ -40,7 +40,6 @@ const handler = async (e) => {
     var0: "",
     var1: "",
     var2: "",
-    var3: "",
   };
 };
 </script>

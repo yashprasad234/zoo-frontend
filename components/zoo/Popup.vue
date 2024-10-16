@@ -1,4 +1,4 @@
-<script setup="ts">
+<script setup lang="ts">
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
 const props = defineProps({
@@ -43,7 +43,7 @@ const formInputs = ref({
   var3: "",
 });
 
-const handler = async (e) => {
+const handler = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/zoo/create", {
     method: "POST",

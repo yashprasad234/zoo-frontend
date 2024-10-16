@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 <template>
   <div v-if="loading">Loading...</div>
-  <div v-if="!loading">
+  <div v-else>
     <div
       v-if="isOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-20 left-1/2 transform -translate-x-1/2"
