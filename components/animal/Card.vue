@@ -39,19 +39,19 @@ const calculateAge = (dob: Date) => {
       class="object-cover h-72"
     />
     <div class="flex flex-col gap-4 p-4">
-      <p
-        class="bg-primary-forest text-off-white px-4 py-2 text-xl font-bold w-max"
-      >
-        {{ name || species }}
+      <p class="text-xl text-black font-black w-max">
+        {{ name }} the {{ species }}
       </p>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 font-sans">
         <div class="flex justify-between">
-          <p class="font-bold text-lg">Gender : {{ gender }}</p>
-          <p class="font-bold text-lg">Species : {{ species }}</p>
+          <p class="text-lg md:text-md">Gender : {{ gender }}</p>
+          <p class="text-lg md:text-md">Species : {{ species }}</p>
         </div>
         <div class="flex justify-between">
-          <p class="font-bold text-lg">Habitat : {{ habitat }}</p>
-          <p class="font-bold text-lg">Age : {{ calculateAge(dob as Date) }}</p>
+          <p class="text-lg md:text-md">Habitat : {{ habitat }}</p>
+          <p class="text-lg md:text-md">
+            Age : {{ calculateAge(dob as Date) }}
+          </p>
         </div>
       </div>
       <div class="flex text-xs gap-4 justify-around" :data-id="dataId">

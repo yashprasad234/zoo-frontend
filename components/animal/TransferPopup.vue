@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
-import Zoo from "~/pages/add/zoo.vue";
 import type { AnimalType } from "~/types/animal";
 import type { ZooType } from "~/types/zoo";
 
@@ -45,7 +44,7 @@ onMounted(() => {
       <img
         :src="animalInfo?.animalImg"
         alt="animal-image"
-        class="w-20 h-20 rounded-full"
+        class="w-20 h-20 rounded-full object-cover"
       />
       <div class="flex flex-col">
         <h3 class="text-2xl font-bold">{{ animalInfo?.name }}</h3>

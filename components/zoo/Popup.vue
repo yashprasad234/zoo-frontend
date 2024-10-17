@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
 const userState = useUserStore();
-const props = defineProps({
-  modelValue: Boolean,
-});
-const emit = defineEmits(["update:modelValue"]);
-const onClick = () => {
-  emit("update:modelValue", !props.modelValue);
-};
+const emit = defineEmits(["close", "fetch"]);
 window.addEventListener("keydown", (e) => {
-  if (props.modelValue && e.key === "Escape") {
-    onClick();
+  if (e.key === "Escape") {
+    emit("close");
   }
 });
 const inputs = [
@@ -58,14 +52,14 @@ const handler = async (e: Event) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("user-token")}`,
     },
-  });
+  }).then(() => emit("fetch"));
   formInputs.value = {
     var0: "",
     var1: "",
     var2: "",
     var3: "",
   };
-  onClick();
+  emit("close");
 };
 </script>
 
@@ -73,7 +67,7 @@ const handler = async (e: Event) => {
   <div class="flex flex-col gap-2">
     <button
       class="outline outline-2 outline-slate-800 px-2 w-max self-end text-sm"
-      @click="onClick"
+      @click="emit('close')"
     >
       X
     </button>
