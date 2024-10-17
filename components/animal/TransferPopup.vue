@@ -31,6 +31,12 @@ const fetchAllZoos = async () => {
 onMounted(() => {
   fetchAllZoos();
 });
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    emit("closePopup");
+  }
+});
 </script>
 <template>
   <div class="flex flex-col gap-4 font-serif p-4">

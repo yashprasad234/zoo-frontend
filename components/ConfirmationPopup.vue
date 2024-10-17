@@ -4,6 +4,12 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["close", "delete"]);
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    emit("close");
+  }
+});
 </script>
 <template>
   <div class="flex flex-col font-serif gap-4 p-4">

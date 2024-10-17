@@ -5,7 +5,7 @@ import type { ZooType } from "~/types/zoo";
 import { formatDateFromTimestamp } from "~/utils/util";
 
 const zoo = ref<ZooType>();
-const animals = ref<AnimalType[]>();
+const animals = ref<AnimalType[]>([]);
 const isOpen = ref(false);
 const confimationPopup = ref(false);
 const transferPopup = ref(false);
@@ -57,6 +57,7 @@ const fetchAnimals = async () => {
       animals.value = res as AnimalType[];
     })
     .catch((err) => {
+      animals.value = [];
       console.log(err);
     });
 };
@@ -88,6 +89,7 @@ onMounted(() => {
       <ConfirmationPopup
         v-model="confimationPopup"
         @delete-animal="handleDelete"
+        @close="() => (confimationPopup = false)"
       />
     </div>
     <div
@@ -159,7 +161,7 @@ onMounted(() => {
       <div v-if="loadingAnimalData">Loading...</div>
       <div v-if="!loadingAnimalData">
         <div
-          v-if="animals != null"
+          v-if="animals.length != 0"
           class="flex flex-col gap-8 font-serif my-12 relative"
         >
           <h3 class="text-4xl font-bold text-center">Our animals</h3>
@@ -171,7 +173,7 @@ onMounted(() => {
             class="bg-primary-forest text-off-white px-4 w-max py-2 absolute right-4 top-12"
             @click="
               () => {
-                isOpen = !isOpen;
+                isOpen = true;
               }
             "
           >
@@ -203,13 +205,13 @@ onMounted(() => {
             />
           </div>
         </div>
-        <div v-if="animals == null">
+        <div v-if="animals.length == 0">
           <h1 class="text-4xl my-8 font-serif text-center">
             <span
               class="text-primary-forest underline cursor-pointer"
               @click="
                 () => {
-                  isOpen != isOpen;
+                  isOpen = true;
                 }
               "
               >Add Animals</span
