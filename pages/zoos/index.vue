@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
 import type { ZooType } from "~/types/zoo";
+import Id from "./[id].vue";
 
 const userState = useUserStore();
 const zooData = ref<ZooType[]>([]);
 const loading = ref(false);
-const isOpen = ref(false);
+const isZooPopupOpen = ref(false);
+const isDeletePopupOpen = ref(false);
+const selectedZooId = ref(0);
 
 const handlePopup = () => {
-  isOpen.value = !isOpen.value;
+  isZooPopupOpen.value = !isZooPopupOpen.value;
 };
 
 const fetchZoos = async () => {
@@ -25,9 +28,17 @@ const fetchZoos = async () => {
     });
 };
 
-watch(isOpen, () => {
-  fetchZoos();
-});
+const deleteZoo = async () => {
+  if (selectedZooId.value == 0) return;
+  else {
+    useCustomFetch(`/zoo/${selectedZooId.value}`, {
+      method: "DELETE",
+    }).then((res) => {
+      console.log(res);
+      fetchZoos();
+    });
+  }
+};
 
 onMounted(() => {
   fetchZoos();
@@ -37,18 +48,32 @@ onMounted(() => {
   <div v-if="loading">Loading...</div>
   <div v-else>
     <div
-      v-if="isOpen"
+      v-if="isZooPopupOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
       <ZooPopup
         @close="
           () => {
-            isOpen = false;
+            isZooPopupOpen = false;
           }
         "
+        @fetch="fetchZoos"
       />
     </div>
-    <div :class="isOpen ? `relative blur-sm my-8` : `relative my-8`">
+    <div
+      v-if="isDeletePopupOpen"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <ConfirmationPopup
+        @close="
+          () => {
+            isDeletePopupOpen = false;
+          }
+        "
+        @delete="deleteZoo"
+      />
+    </div>
+    <div :class="isZooPopupOpen ? `relative blur-sm my-8` : `relative my-8`">
       <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
       <button
         :class="
@@ -73,6 +98,12 @@ onMounted(() => {
           :area="data.area"
           :description="data.description"
           :showButtons="true"
+          @open-delete-popup="
+            (id: number) => {
+              isDeletePopupOpen = true;
+              selectedZooId = id;
+            }
+          "
         />
       </div>
     </div>

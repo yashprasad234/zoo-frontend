@@ -11,6 +11,8 @@ const props = defineProps({
   dataId: Number,
   showButtons: Boolean,
 });
+
+const emit = defineEmits(["openDeletePopup"]);
 </script>
 <template>
   <div
@@ -66,11 +68,7 @@ const props = defineProps({
             stroke-width="1.5"
             stroke="currentColor"
             class="size-10 rounded-full px-2 hover:scale-125 cursor-pointer border-2"
-            @click="
-              () => {
-                navigateTo(`/zoos/${dataId}`);
-              }
-            "
+            @click="emit('openDeletePopup', dataId)"
           >
             <path
               stroke-linecap="round"
