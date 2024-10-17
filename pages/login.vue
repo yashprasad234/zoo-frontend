@@ -29,28 +29,29 @@ const menuState = useMenuStore();
 const userState = useUserStore();
 
 async function fetchData() {
-  try {
-    const res = await useCustomFetch("/login", {
-      method: "POST",
-      body: {
-        username: formInputs.value.var0,
-        password: formInputs.value.var1,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
+  useCustomFetch("/login", {
+    method: "POST",
+    body: {
+      username: formInputs.value.var0,
+      password: formInputs.value.var1,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      const data = res as UserLoginDetails;
+      localStorage.setItem("user-token", data.token);
+      userState.$patch({ isLoading: false, user: data.userDetails });
+      let menu = userMenu;
+      menuState.$patch({ menu });
+      message.value = "Logged in!";
+      navigateTo(`/dashboard`);
+    })
+    .catch((err) => {
+      console.log(err.response._data.message);
+      message.value = err.response._data.message;
     });
-    const data = res as UserLoginDetails;
-    localStorage.setItem("user-token", data.token);
-    userState.$patch({ isLoading: false, user: data.userDetails });
-    let menu = userMenu;
-    menuState.$patch({ menu });
-    message.value = "Logged in!";
-    navigateTo(`/dashboard`);
-  } catch (err: any) {
-    console.log(err);
-    message.value = err;
-  }
 }
 
 async function handler(e: Event) {

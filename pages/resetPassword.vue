@@ -25,7 +25,7 @@ const formInputs = ref({
 
 const handler = async (e: Event) => {
   e.preventDefault();
-  await useCustomFetch("/animal/create", {
+  useCustomFetch("/animal/create", {
     method: "POST",
     body: {
       oldPassword: formInputs.value.var0,
@@ -34,6 +34,8 @@ const handler = async (e: Event) => {
     headers: {
       "Content-Type": "application/json",
     },
+  }).then((res) => {
+    console.log(res);
   });
   formInputs.value = {
     var0: "",

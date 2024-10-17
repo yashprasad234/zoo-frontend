@@ -21,53 +21,56 @@ const handleConfirmation = (animal: AnimalType) => {
 };
 
 const handleDelete = async () => {
-  try {
-    const res = await useCustomFetch(`/animal/id/${selectedAnimal.value?.id}`, {
-      method: "DELETE",
+  useCustomFetch(`/animal/id/${selectedAnimal.value?.id}`, {
+    method: "DELETE",
+  })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const handleTransfer = async (zooId: number) => {
   if (zooId == 0) return;
   else {
-    try {
-      const res = await useCustomFetch(
-        `/animal/id/${selectedAnimal.value?.id}?zooId=${zooId}`,
-        {
-          method: "PUT",
-        }
-      );
-      transferPopup.value = false;
-      fetchAnimals();
-    } catch (err) {
-      console.log(err);
-    }
+    useCustomFetch(`/animal/id/${selectedAnimal.value?.id}?zooId=${zooId}`, {
+      method: "PUT",
+    })
+      .then((res) => {
+        console.log(res);
+        transferPopup.value = false;
+        fetchAnimals();
+      })
+      .catch((err) => {
+        console.log(err.response._data.message);
+      });
   }
 };
 
 const fetchAnimals = async () => {
-  try {
-    const res = await useCustomFetch(`/animal/zoo/${route.params.id}`, {
-      method: "GET",
+  useCustomFetch(`/animal/zoo/${route.params.id}`, {
+    method: "GET",
+  })
+    .then((res) => {
+      animals.value = res as AnimalType[];
+    })
+    .catch((err) => {
+      console.log(err);
     });
-    animals.value = res as AnimalType[];
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 const fetchZoo = async () => {
-  try {
-    const res = await useCustomFetch(`/zoo/id/${route.params.id}`, {
-      method: "GET",
+  useCustomFetch(`/zoo/id/${route.params.id}`, {
+    method: "GET",
+  })
+    .then((res) => {
+      zoo.value = res as ZooType;
+    })
+    .catch((err) => {
+      console.log(err);
     });
-    zoo.value = res as ZooType;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 onMounted(() => {

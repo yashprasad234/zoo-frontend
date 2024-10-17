@@ -15,19 +15,20 @@ const formInputs = ref({
 });
 
 const fetchForgetPassword = async () => {
-  try {
-    const res = await useCustomFetch("/forgotpassword", {
-      method: "GET",
-      query: {
-        email: formInputs.value.var0,
-      },
+  useCustomFetch("/forgotpassword", {
+    method: "GET",
+    query: {
+      email: formInputs.value.var0,
+    },
+  })
+    .then((res) => {
+      navigateTo(res as string);
+      message.value = "User found in DB";
+    })
+    .catch((err) => {
+      console.log(err.response);
+      message.value = err.response.message;
     });
-    navigateTo(res as string);
-    message.value = "User found in DB";
-  } catch (err: any) {
-    console.log(err.response);
-    message.value = err.response.message;
-  }
 };
 
 const handler = async (e: Event) => {

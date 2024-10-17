@@ -7,19 +7,20 @@ const page = ref<number>(0);
 const size = 1;
 
 const fetchZoos = async () => {
-  try {
-    const res = await useCustomFetch("/zoo/list", {
-      method: "GET",
-      query: {
-        page: page.value,
-        size: size,
-      },
+  useCustomFetch("/zoo/list", {
+    method: "GET",
+    query: {
+      page: page.value,
+      size: size,
+    },
+  })
+    .then((res) => {
+      zooList.value = [...zooList.value, ...(res as ZooType[])];
+      page.value = page.value + 1;
+    })
+    .catch((err) => {
+      console.log(err.response._data.message);
     });
-    zooList.value = [...zooList.value, ...(res as ZooType[])];
-    page.value = page.value + 1;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 onMounted(() => {

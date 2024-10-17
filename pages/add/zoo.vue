@@ -34,7 +34,7 @@ const formInputs = ref({
 
 const handler = async (e: Event) => {
   e.preventDefault();
-  await useCustomFetch("/super/zoo/create", {
+  useCustomFetch("/super/zoo/create", {
     method: "POST",
     body: {
       name: formInputs.value.var0,
@@ -47,6 +47,8 @@ const handler = async (e: Event) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("user-token")}`,
     },
+  }).then((res) => {
+    console.log(res);
   });
 };
 </script>

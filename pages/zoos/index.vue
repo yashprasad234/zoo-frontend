@@ -12,17 +12,17 @@ const handlePopup = () => {
 };
 
 const fetchZoos = async () => {
-  try {
-    loading.value = true;
-    const res = await useCustomFetch("/zoo/all", {
-      method: "GET",
+  useCustomFetch("/zoo/all", {
+    method: "GET",
+  })
+    .then((res) => {
+      zooData.value = res as ZooType[];
+      loading.value = false;
+    })
+    .catch((err) => {
+      loading.value = false;
+      console.log(err);
     });
-    zooData.value = res as ZooType[];
-    loading.value = false;
-  } catch (err) {
-    loading.value = false;
-    console.log(err);
-  }
 };
 
 watch(isOpen, () => {

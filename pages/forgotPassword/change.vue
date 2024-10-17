@@ -21,26 +21,27 @@ const route = useRoute();
 const toast = useToast();
 
 const updatePassword = async () => {
-  try {
-    if (formInputs.value.var0 != formInputs.value.var1) {
-      throw new Error("Password and Confirm Password Don't Match");
-    } else {
-      const res = await useCustomFetch("/changePassword", {
-        method: "PUT",
-        body: {
-          password: formInputs.value.var0,
-        },
-        headers: {
-          "Content-Type": "Application/JSON",
-          Authorization: `Bearer ${route.query.token}`,
-        },
+  if (formInputs.value.var0 != formInputs.value.var1) {
+    throw new Error("Password and Confirm Password Don't Match");
+  } else {
+    useCustomFetch("/changePassword", {
+      method: "PUT",
+      body: {
+        password: formInputs.value.var0,
+      },
+      headers: {
+        "Content-Type": "Application/JSON",
+        Authorization: `Bearer ${route.query.token}`,
+      },
+    })
+      .then((res) => {
+        message.value = "Password changed successfully";
+        navigateTo("/login");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        message.value = err.response.data.message;
       });
-      message.value = "Password changed successfully";
-      navigateTo("/login");
-    }
-  } catch (err: any) {
-    console.log(err);
-    message.value = err.response.data.message;
   }
 };
 

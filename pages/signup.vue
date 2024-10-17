@@ -29,23 +29,24 @@ async function fetchData() {
   if (formInputs.value.var1 != formInputs.value.var2) {
     message.value = "Password and Confirm Password Don't match";
   } else {
-    try {
-      const res = useCustomFetch("/signup", {
-        method: "POST",
-        body: {
-          username: formInputs.value.var0,
-          password: formInputs.value.var1,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+    useCustomFetch("/signup", {
+      method: "POST",
+      body: {
+        username: formInputs.value.var0,
+        password: formInputs.value.var1,
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        message.value = "User created successfully";
+        navigateTo(`/login`);
+      })
+      .catch((err: any) => {
+        console.log(err.response);
+        message.value = err.value.data.message;
       });
-      message.value = "User created successfully";
-      navigateTo(`/login`);
-    } catch (err: any) {
-      console.log(err.response);
-      message.value = err.value.data.message;
-    }
   }
 }
 
