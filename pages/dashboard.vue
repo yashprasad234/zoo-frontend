@@ -2,25 +2,41 @@
 import { useUserStore } from "~/store/user";
 import type { ZooType } from "~/types/zoo";
 
+type ZooPaginationRes = {
+  zoos: ZooType[];
+  pages: number;
+};
+
 const zooList = ref<ZooType[]>([]);
 const page = ref<number>(0);
 const size = 1;
+const maxLimitReached = ref(false);
 
 const fetchZoos = async () => {
-  useCustomFetch("/zoo/list", {
-    method: "GET",
-    query: {
-      page: page.value,
-      size: size,
-    },
-  })
-    .then((res) => {
-      zooList.value = [...zooList.value, ...(res as ZooType[])];
-      page.value = page.value + 1;
+  if (maxLimitReached.value) {
+    return;
+  } else {
+    useCustomFetch("/zoo/list", {
+      method: "GET",
+      query: {
+        page: page.value,
+        size: size,
+      },
     })
-    .catch((err) => {
-      console.log(err.response._data.message);
-    });
+      .then((res) => {
+        if (res != null) {
+          page.value = page.value + 1;
+          const data = res as ZooPaginationRes;
+          zooList.value = [...zooList.value, ...data.zoos];
+          if (page.value == data.pages) maxLimitReached.value = true;
+        } else {
+          maxLimitReached.value = true;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 };
 
 onMounted(() => {
@@ -51,6 +67,7 @@ onMounted(() => {
       />
     </div>
     <button
+      v-if="!maxLimitReached"
       class="bg-deep-orange w-28 text-off-white mx-auto px-4 py-2"
       @click="fetchZoos"
     >
