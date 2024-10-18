@@ -148,7 +148,7 @@ onBeforeMount(() => {
         <div class="justify-self-end">
           <div
             v-if="userState?.user.role != ''"
-            class="flex gap-16 items-center"
+            class="flex gap-4 items-center"
           >
             <div
               v-for="([name, href], index) in menuState.menu"
