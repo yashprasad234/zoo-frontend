@@ -1,12 +1,10 @@
 import type { UseFetchOptions } from "nuxt/app";
 
-const userToken = useCookie("user-token");
-
 export function useCustomFetch<T>(
   url: string,
   options: UseFetchOptions<T> = {}
 ) {
-  console.log(userToken.value != undefined);
+  const userToken = useCookie("user-token");
   const defaults: UseFetchOptions<T> = {
     baseURL: "http://localhost:8080",
     headers:
