@@ -25,6 +25,12 @@ const formInputs = ref({
 const toast = useToast();
 const message = ref("");
 const menuState = useMenuStore();
+const userToken = useCookie("user-token", {
+  maxAge: 3600,
+  httpOnly: false,
+  secure: true,
+  sameSite: true,
+});
 
 const userState = useUserStore();
 
@@ -41,7 +47,7 @@ async function fetchData() {
   })
     .then((res) => {
       const data = res as UserLoginDetails;
-      localStorage.setItem("user-token", data.token);
+      userToken.value = data.token;
       userState.$patch({ isLoading: false, user: data.userDetails });
       let menu = userMenu;
       menuState.$patch({ menu });
@@ -49,8 +55,7 @@ async function fetchData() {
       navigateTo(`/dashboard`);
     })
     .catch((err) => {
-      console.log(err.response._data.message);
-      message.value = err.response._data.message;
+      console.log(err.response);
     });
 }
 

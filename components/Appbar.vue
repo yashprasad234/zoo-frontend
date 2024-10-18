@@ -9,9 +9,10 @@ const menuState = useMenuStore();
 const isOpen = ref(false);
 const hamburgerMenuOpen = ref(false);
 const openUserMenu = ref(false);
+const userToken = useCookie("user-token");
 
 async function fetchMe() {
-  const token = localStorage.getItem("user-token");
+  const token = userToken.value;
   if (!token) navigateTo("/login");
   else {
     if (!userState?.isLoading && userState?.user.role != "") {
@@ -27,7 +28,7 @@ async function fetchMe() {
         .catch((err) => {
           menuState.reset();
           userState.notFound();
-          localStorage.removeItem("user-token");
+          userToken.value = "";
           navigateTo("/login");
         });
     }
@@ -41,7 +42,7 @@ async function handleLogout() {
     .then(() => {
       userState.notFound();
       menuState.reset();
-      localStorage.removeItem("user-token");
+      userToken.value = "";
       navigateTo("/login");
     })
     .catch((err) => {
@@ -60,7 +61,9 @@ onBeforeMount(() => {
 </script>
 
 <template>
+  <div v-if="userState.isLoading">Loading...</div>
   <div
+    v-if="!userState.isLoading"
     class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-30 font-serif shadow-xl"
   >
     <!-- Mobil menu -->
