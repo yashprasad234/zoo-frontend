@@ -55,16 +55,19 @@ onMounted(() => {
   <section class="my-8 flex flex-col gap-4 p-4">
     <h1 class="text-4xl font-serif text-center font-bold my-6">Zoo Explorer</h1>
     <div class="grid grid-cols-12 gap-6">
-      <Card
-        class="col-span-8 col-start-3"
+      <div
+        class="col-span-12 md:col-start-3 md:col-span-8"
         v-for="(zoo, index) in zooList"
         :key="index"
-        :zoo-name="zoo.name"
-        :location="zoo.location"
-        :inaugration="zoo.inaugration"
-        :area="zoo.area"
-        :description="zoo.description"
-      />
+      >
+        <Card
+          :zoo-name="zoo.name"
+          :location="zoo.location"
+          :inaugration="zoo.inaugration"
+          :area="zoo.area"
+          :description="zoo.description"
+        />
+      </div>
     </div>
     <button
       v-if="!maxLimitReached"

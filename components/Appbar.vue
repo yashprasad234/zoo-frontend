@@ -61,7 +61,7 @@ onBeforeMount(() => {
 
 <template>
   <div
-    class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-50 font-serif shadow-xl"
+    class="flex items-center justify-between px-6 py-4 sticky top-0 bg-white z-30 font-serif shadow-xl"
   >
     <!-- Mobil menu -->
     <div class="flex flex-col relative block md:hidden">

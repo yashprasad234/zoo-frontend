@@ -49,7 +49,7 @@ onMounted(() => {
   <div v-else>
     <div
       v-if="isZooPopupOpen"
-      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/3"
     >
       <ZooPopup
         @close="
@@ -74,37 +74,40 @@ onMounted(() => {
       />
     </div>
     <div :class="isZooPopupOpen ? `relative blur-sm my-8` : `relative my-8`">
-      <h1 class="text-5xl font-serif text-center tracking-widest">OUR ZOOS</h1>
-      <button
-        :class="
-          zooData.length != 0
-            ? 'bg-primary-forest text-off-white px-4 w-max py-2 absolute right-32 top-8'
-            : 'bg-primary-forest text-off-white px-4 w-max py-2 mx-auto'
-        "
-        @click="handlePopup"
-        v-if="userState?.user?.role == 'SUPERADMIN'"
-      >
-        Add New Zoo
-      </button>
+      <div class="flex flex-col justify-center gap-4 md:gap-0">
+        <h1 class="text-5xl font-serif text-center tracking-widest">
+          OUR ZOOS
+        </h1>
+        <button
+          class="bg-primary-forest text-off-white px-4 w-max py-2 mr-4 self-center md:self-end"
+          @click="handlePopup"
+          v-if="userState?.user?.role == 'SUPERADMIN'"
+        >
+          Add New Zoo
+        </button>
+      </div>
       <div class="grid grid-cols-12 gap-8 my-8 px-4">
-        <Card
+        <div
           v-for="(data, ind) in zooData"
-          :data-id="data.id"
           :key="ind"
-          class="col-span-4"
-          :zooName="data.name"
-          :location="data.location"
-          :inaugration="data.inaugration"
-          :area="data.area"
-          :description="data.description"
-          :showButtons="true"
-          @open-delete-popup="
+          class="col-span-12 md:col-span-6 lg:col-span-4"
+        >
+          <Card
+            :zooName="data.name"
+            :data-id="data.id"
+            :location="data.location"
+            :inaugration="data.inaugration"
+            :area="data.area"
+            :description="data.description"
+            :showButtons="true"
+            @open-delete-popup="
             (id: number) => {
               isDeletePopupOpen = true;
               selectedZooId = id;
             }
           "
-        />
+          />
+        </div>
       </div>
     </div>
   </div>

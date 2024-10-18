@@ -46,14 +46,16 @@ const handler = async (e: Event) => {
 </script>
 <template>
   <div class="bg-primary-earth h-screen flex justify-center items-center">
-    <Form
-      @submitForm="handler"
-      :inputs="inputs"
-      formName="Reset Password"
-      submitBtnText="Submit"
-      v-model="formInputs"
-      :noBorder="true"
-      gap="gap-6"
-    />
+    <div class="bg-white p-4 w-max">
+      <Form
+        @submitForm="handler"
+        :inputs="inputs"
+        formName="Reset Password"
+        submitBtnText="Submit"
+        v-model="formInputs"
+        :noBorder="true"
+        gap="gap-4"
+      />
+    </div>
   </div>
 </template>

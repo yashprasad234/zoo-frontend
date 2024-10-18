@@ -42,12 +42,9 @@ const calculateAge = (dob: Date) => {
       <p class="text-xl text-black font-black w-max">
         {{ name }} the {{ species }}
       </p>
-      <div class="flex flex-col gap-4 font-sans">
-        <div class="flex justify-between">
+      <div class="font-sans">
+        <div class="flex flex-col">
           <p class="text-lg md:text-md">Gender : {{ gender }}</p>
-          <p class="text-lg md:text-md">Species : {{ species }}</p>
-        </div>
-        <div class="flex justify-between">
           <p class="text-lg md:text-md">Habitat : {{ habitat }}</p>
           <p class="text-lg md:text-md">
             Age : {{ calculateAge(dob as Date) }}

@@ -71,7 +71,7 @@ const handler = async (e: Event) => {
     >
       X
     </button>
-    <div class="flex justify-center py-4">
+    <div class="flex justify-center">
       <Form
         @submitForm="handler"
         :inputs="inputs"

@@ -5,6 +5,7 @@ const props = defineProps({
   inputs: Array as PropType<FormInputType[]>,
   submitBtnText: String,
   formName: String,
+  subHeading: String,
   modelValue: Object,
   noBorder: Boolean,
   gap: { type: String, default: "gap-4" },
@@ -22,11 +23,16 @@ const updateValue = (index: number, value: any) => {
   <div
     :class="
       noBorder
-        ? `flex flex-col items-center w-max ${gap} h-max py-4 px-12 rounded-xl font-serif`
-        : `flex flex-col items-center w-max ${gap} h-max py-4 px-12 rounded-xl font-serif border border-2 border-slate-800`
+        ? `flex flex-col items-center w-full ${gap} h-max py-4 px-12 rounded-xl font-serif`
+        : `flex flex-col items-center w-full ${gap} h-max py-4 px-12 rounded-xl font-serif border border-2 border-slate-800`
     "
   >
-    <h1 class="text-3xl text-slate-800">{{ props.formName }}</h1>
+    <h1 v-if="formName != ''" class="text-3xl text-slate-800">
+      {{ props.formName }}
+    </h1>
+    <p v-if="subHeading != ''" class="text-lg self-start">
+      {{ subHeading }}
+    </p>
     <form
       @submit="
         (e: Event) => {

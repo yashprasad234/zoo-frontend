@@ -54,9 +54,9 @@ const handler = async (e: Event) => {
 };
 </script>
 <template>
-  <div class="bg-primary-earth h-screen flex justify-center font-serif">
+  <div class="bg-primary-earth h-full flex justify-center font-serif p-4">
     <div
-      class="flex flex-col justify-center items-center w-1/3 gap-6 h-max bg-white py-20 px-6 rounded-xl mt-8"
+      class="flex flex-col justify-center items-center w-3/5 md:w-1/2 lg:w-1/3 gap-6 h-max bg-white py-20 px-6 rounded-xl mt-8"
     >
       <div class="flex flex-col gap-4 w-4/5">
         <h1 class="text-3xl text-slate-800 self-start">Change Password</h1>
@@ -69,15 +69,16 @@ const handler = async (e: Event) => {
           >, to sign in with your new password.
         </p>
       </div>
-      <Form
-        @submitForm="handler"
-        :inputs="inputs"
-        submitBtnText="Change Password"
-        v-model="formInputs"
-        class="flex flex-col gap-12 w-full"
-        :noBorder="true"
-        gap="gap-6"
-      />
+      <div class="-mt-12">
+        <Form
+          @submitForm="handler"
+          :inputs="inputs"
+          submitBtnText="Change Password"
+          v-model="formInputs"
+          :noBorder="true"
+          gap="gap-6"
+        />
+      </div>
     </div>
   </div>
 </template>
