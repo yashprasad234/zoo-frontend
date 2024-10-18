@@ -15,13 +15,11 @@ const selectedZooId = ref(0);
 const emit = defineEmits(["transferAnimal", "closePopup"]);
 
 const fetchAllZoos = async () => {
-  useCustomFetch("/zoo/all", {
+  useCustomFetch(`/zoo/all/${props.animalInfo?.zoo?.id}`, {
     method: "GET",
   })
     .then((res) => {
-      allZoos.value = (res as ZooType[]).filter((zoo) => {
-        if (zoo.id != props.animalInfo?.zoo?.id) return zoo;
-      });
+      allZoos.value = res as ZooType[];
     })
     .catch((err) => {
       console.log(err.response._data.message);
