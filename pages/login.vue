@@ -48,7 +48,6 @@ async function fetchData() {
     .then((res) => {
       const data = res as UserLoginDetails;
       userToken.value = data.token;
-      console.log(userToken.value);
       userState.$patch({ isLoading: false, user: data.userDetails });
       let menu = userMenu;
       menuState.$patch({ menu });

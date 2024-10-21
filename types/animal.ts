@@ -7,7 +7,7 @@ export type AnimalType = {
   name: string;
   gender: string;
   animalImg: string;
-  dob: Date;
+  dob: string;
   species: string;
   habitat: string;
 };

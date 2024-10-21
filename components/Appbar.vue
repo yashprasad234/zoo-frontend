@@ -3,9 +3,11 @@ import { useUserStore } from "~/store/user";
 import { useMenuStore } from "~/store/menu";
 import { userMenu } from "~/data/menu";
 import type { UserType } from "~/types/user";
+import { useAvatarStore } from "~/store/avatar";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
+const avatarState = useAvatarStore();
 const isOpen = ref(false);
 const hamburgerMenuOpen = ref(false);
 const openUserMenu = ref(false);
@@ -51,7 +53,7 @@ async function handleLogout() {
 }
 
 async function logout() {
-  isOpen.value = false;
+  avatarState.close();
   await handleLogout();
 }
 
@@ -156,13 +158,17 @@ onBeforeMount(() => {
             >
               <MenuButton :key="index" :name="name" :href="href" />
             </div>
-            <AvatarComponent @updateState="isOpen = !isOpen" />
+            <AvatarComponent
+              @updateState="
+                avatarState.isOpen ? avatarState.close() : avatarState.open()
+              "
+            />
           </div>
           <AvatarPopup
-            v-if="isOpen"
+            v-if="avatarState.isOpen"
             @logout="logout"
             :userName="userState?.user.username"
-            v-model="isOpen"
+            @close="avatarState.close()"
           />
           <div
             v-if="!userState?.isLoading && userState?.user.role == ''"

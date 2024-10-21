@@ -18,8 +18,6 @@ const fetchZoos = async () => {
   if (maxLimitReached.value) {
     return;
   } else {
-    console.log(userToken.value);
-
     useCustomFetch("/zoo/list", {
       method: "GET",
       query: {
@@ -32,9 +30,6 @@ const fetchZoos = async () => {
           page.value = page.value + 1;
           const data = res as ZooPaginationRes;
           zooList.value = [...zooList.value, ...data.zoos];
-
-          console.log(zooList.value);
-
           if (page.value == data.pages) maxLimitReached.value = true;
         } else {
           maxLimitReached.value = true;

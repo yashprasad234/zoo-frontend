@@ -32,15 +32,15 @@
     </div>
   </div>
   <div id="about">
-    <About />
+    <HomeAbout />
   </div>
   <div id="our-zoos" class="mb-8">
-    <FeaturedZoos />
+    <HomeFeaturedZoos />
   </div>
   <div id="animal-spotlight" class="mb-8">
     <HomeAnimalSpotlight />
   </div>
   <div id="cta" class="mb-8">
-    <CTA />
+    <HomeCTA />
   </div>
 </template>

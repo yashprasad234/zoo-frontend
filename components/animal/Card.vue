@@ -9,23 +9,28 @@ const props = defineProps({
   species: String,
   habitat: String,
   dataId: Number,
-  dob: Date,
+  dob: String,
 });
 
 const emits = defineEmits(["openConfirmation", "openTransfer"]);
 
-const calculateAge = (dob: Date) => {
-  const dateOfBirth = new Date(dob);
-  const now = new Date();
-  let years = now.getFullYear() - dateOfBirth.getFullYear();
-  let months = now.getMonth() - dateOfBirth.getMonth();
-  if (months < 0) {
-    years--;
-    months += 12;
+const calculateAge = (dateString: string) => {
+  const birthDate = new Date(dateString as string);
+  const today = new Date();
+
+  // Calculate the difference in years
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  // Adjust if the birth date hasn't occurred yet this year
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  const dayDifference = today.getDate() - birthDate.getDate();
+
+  if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+    age--;
   }
-  let yearStr = years > 1 ? `${years} years` : `${years} year`;
-  let monthStr = months > 1 ? `${months} months` : `${months} month`;
-  return `${yearStr} ${months > 0 ? monthStr : ""}`.trim();
+
+  // Return the age as a string
+  return age === 1 ? `${age} year` : `${age} years`;
 };
 </script>
 
@@ -46,9 +51,7 @@ const calculateAge = (dob: Date) => {
         <div class="flex flex-col">
           <p class="text-lg md:text-md">Gender : {{ gender }}</p>
           <p class="text-lg md:text-md">Habitat : {{ habitat }}</p>
-          <p class="text-lg md:text-md">
-            Age : {{ calculateAge(dob as Date) }}
-          </p>
+          <p class="text-lg md:text-md">Age : {{ calculateAge(`${dob}`) }}</p>
         </div>
       </div>
       <div class="flex text-xs gap-4 justify-around">

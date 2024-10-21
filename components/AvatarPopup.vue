@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
 
-const props = defineProps({
-  modelValue: Boolean,
-});
-
-const emit = defineEmits(["update:modelValue", "logout"]);
+const emit = defineEmits(["close", "logout"]);
 const onClick = () => {
-  emit("update:modelValue", !props.modelValue);
+  emit("close");
   navigateTo("/resetPassword");
 };
 const userState = useUserStore();
