@@ -21,34 +21,36 @@ const emit = defineEmits(["openDeletePopup"]);
     <img src="/assets/zoo/delhi-zoo.jpg" alt="zoo" class="object-cover h-max" />
     <div class="flex flex-col gap-4 p-4">
       <div class="flex flex-col">
-        <h3 class="md:text-lg lg:text-xl xl:text-2xl font-serif font-black">
-          {{ zooName || "Zoo Name" }}
-        </h3>
-        <p class="text-md font-serif overflow-y-scroll h-16">
-          {{
-            description +
-              "" +
-              description +
-              description +
-              description +
-              description +
-              description +
-              description +
-              description +
-              description +
-              description +
+        <div class="flex flex-col">
+          <div class="flex items-center justify-between">
+            <h3 class="md:text-lg lg:text-xl xl:text-2xl font-serif font-black">
+              {{ zooName || "Zoo Name" }}
+            </h3>
+            <div v-if="showButtons" class="text-sm text-right">
+              <p>Size: {{ area }} Acres</p>
+              <p>Location: {{ location }}</p>
+            </div>
+          </div>
+          <p class="text-md font-serif overflow-y-auto h-16">
+            {{
               description ||
-            `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+              `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
         animi aut officia porro nesciunt obcaecati qui eaque exercitationem
         pariatur et voluptate, magnam quasi vero veniam iste ipsa, est,
         similique doloribus at aliquam praesentium dicta! Eius voluptatem autem
         quasi natus laborum.`
-          }}
-        </p>
+            }}
+          </p>
+        </div>
         <div class="flex text-xs gap-4 justify-around mt-2" v-if="showButtons">
           <IconView
             :is-visible="userState?.user?.role != ''"
             :href="`/zoos/${dataId}`"
+          />
+          <IconEdit
+            :is-visible="
+              userState?.user?.role != '' && userState?.user?.role != 'USER'
+            "
           />
           <IconDelete
             :is-visible="userState?.user?.role == `SUPERADMIN`"

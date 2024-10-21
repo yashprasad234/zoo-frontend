@@ -71,6 +71,7 @@ const handler = async (e: Event) => {
       </div>
       <div class="-mt-12">
         <Form
+          type="form"
           @submitForm="handler"
           :inputs="inputs"
           submitBtnText="Change Password"

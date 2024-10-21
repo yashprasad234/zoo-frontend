@@ -7,7 +7,7 @@ window.addEventListener("keydown", (e) => {
     emit("close");
   }
 });
-const inputs = [
+const zooInputs = [
   {
     type: "text",
     placeholder: "Enter the name of the Zoo",
@@ -30,22 +30,22 @@ const inputs = [
   },
 ];
 
-const formInputs = ref({
+const zooFormzooInputs = ref({
   var0: "",
   var1: "",
   var2: "",
   var3: "",
 });
 
-const handler = async (e: Event) => {
+const addZoo = async (e: Event) => {
   e.preventDefault();
   await useCustomFetch("/zoo/create", {
     method: "POST",
     body: {
-      name: formInputs.value.var0,
-      location: formInputs.value.var1,
-      area: +formInputs.value.var2,
-      description: formInputs.value.var3,
+      name: zooFormzooInputs.value.var0,
+      location: zooFormzooInputs.value.var1,
+      area: +zooFormzooInputs.value.var2,
+      description: zooFormzooInputs.value.var3,
       userId: userState?.user?.id,
     },
     headers: {
@@ -53,7 +53,7 @@ const handler = async (e: Event) => {
       Authorization: `Bearer ${localStorage.getItem("user-token")}`,
     },
   }).then(() => emit("fetch"));
-  formInputs.value = {
+  zooFormzooInputs.value = {
     var0: "",
     var1: "",
     var2: "",
@@ -73,11 +73,11 @@ const handler = async (e: Event) => {
     </button>
     <div class="flex justify-center">
       <Form
-        @submitForm="handler"
-        :inputs="inputs"
+        @submitForm="addZoo"
+        :zooInputs="zooInputs"
         formName="Add Zoo"
         submitBtnText="Submit"
-        v-model="formInputs"
+        v-model="zooFormzooInputs"
         gap="gap-4"
         :noBorder="true"
       />

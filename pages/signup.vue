@@ -66,6 +66,7 @@ async function handler(e: Event) {
       class="flex flex-col justify-center items-center w-1/3 gap-8 h-max bg-white w-max py-12 px-12 rounded-xl mt-8"
     >
       <Form
+        type="form"
         @submitForm="handler"
         :inputs="inputs"
         formName="Signup"

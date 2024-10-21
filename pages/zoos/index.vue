@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
 import type { ZooType } from "~/types/zoo";
-import Id from "./[id].vue";
 
 const userState = useUserStore();
 const zooData = ref<ZooType[]>([]);
@@ -43,6 +42,67 @@ const deleteZoo = async () => {
 onMounted(() => {
   fetchZoos();
 });
+
+// add zoo
+
+const zooInputs = [
+  {
+    type: "text",
+    placeholder: "Enter the name of the Zoo",
+    required: true,
+  },
+  {
+    type: "text",
+    placeholder: "Enter the lacation of the Zoo",
+    required: true,
+  },
+  {
+    type: "text",
+    placeholder: `Enter the are of the Zoo in Acres`,
+    required: true,
+  },
+  {
+    type: "text",
+    placeholder: "Enter the description for the Zoo",
+    required: true,
+  },
+];
+
+const zooFormInputs = ref({
+  var0: "",
+  var1: "",
+  var2: "",
+  var3: "",
+});
+
+const addZoo = async (e: Event) => {
+  e.preventDefault();
+  await useCustomFetch("/zoo/create", {
+    method: "POST",
+    body: {
+      name: zooFormInputs.value.var0,
+      location: zooFormInputs.value.var1,
+      area: +zooFormInputs.value.var2,
+      description: zooFormInputs.value.var3,
+      userId: userState?.user?.id,
+    },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+    },
+  }).then(() => {
+    fetchZoos();
+    zooFormInputs.value = {
+      var0: "",
+      var1: "",
+      var2: "",
+      var3: "",
+    };
+    isZooPopupOpen.value = false;
+  });
+};
+
+//
 </script>
 <template>
   <div v-if="loading">Loading...</div>
@@ -51,13 +111,20 @@ onMounted(() => {
       v-if="isZooPopupOpen"
       class="bg-white z-30 w-max shadow-2xl px-4 py-2 fixed top-1/2 md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/3"
     >
-      <ZooPopup
+      <Form
+        type="popup"
         @close="
           () => {
             isZooPopupOpen = false;
           }
         "
-        @fetch="fetchZoos"
+        @submitForm="addZoo"
+        :zooInputs="zooInputs"
+        formName="Add Zoo"
+        submitBtnText="Submit"
+        v-model="zooFormInputs"
+        gap="gap-4"
+        :noBorder="true"
       />
     </div>
     <div

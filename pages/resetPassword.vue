@@ -48,6 +48,7 @@ const handler = async (e: Event) => {
   <div class="bg-primary-earth h-screen flex justify-center items-center">
     <div class="bg-white p-4 w-max">
       <Form
+        type="form"
         @submitForm="handler"
         :inputs="inputs"
         formName="Reset Password"
