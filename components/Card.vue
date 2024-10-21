@@ -24,7 +24,7 @@ const emit = defineEmits(["openDeletePopup"]);
         <h3 class="md:text-lg lg:text-xl xl:text-2xl font-serif font-black">
           {{ zooName || "Zoo Name" }}
         </h3>
-        <p class="text-md font-serif overflow-y-hidden h-16">
+        <p class="text-md font-serif overflow-y-scroll h-16">
           {{
             description +
               "" +
