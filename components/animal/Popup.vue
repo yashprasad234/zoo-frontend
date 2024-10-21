@@ -5,7 +5,7 @@ const props = defineProps({
   modelValue: Boolean,
   count: Number,
 });
-const emit = defineEmits(["updateIsOpen", "updateProps"]);
+const emit = defineEmits(["updateIsOpen", "updateProps", "fetch"]);
 
 window.addEventListener("keydown", (e) => {
   if (props.modelValue && e.key === "Escape") {
@@ -64,16 +64,22 @@ const handler = async (e: Event) => {
     },
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("user-token")}`,
     },
-  });
-  formInputs.value = {
-    var0: "",
-    var1: "",
-    var2: "",
-    var3: "",
-    var4: "",
-  };
+  })
+    .then(() => {
+      formInputs.value = {
+        var0: "",
+        var1: "",
+        var2: "",
+        var3: "",
+        var4: "",
+      };
+      emit("fetch");
+    })
+    .catch(() => {
+      emit("updateIsOpen");
+    });
+
   emit("updateProps");
 };
 </script>

@@ -26,6 +26,7 @@ const handleDelete = async () => {
   })
     .then((res) => {
       console.log(res);
+      fetchAnimals();
     })
     .catch((err) => {
       console.log(err);
@@ -88,7 +89,7 @@ onMounted(() => {
     >
       <ConfirmationPopup
         v-model="confimationPopup"
-        @delete-animal="handleDelete"
+        @delete="handleDelete"
         @close="() => (confimationPopup = false)"
       />
     </div>
@@ -124,6 +125,7 @@ onMounted(() => {
             isOpen = !isOpen;
           }
         "
+        @fetch="fetchAnimals"
       />
     </div>
     <div
