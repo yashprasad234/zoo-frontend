@@ -2,12 +2,19 @@ import { openRoutes } from "~/data/routes";
 import { useUserStore } from "~/store/user";
 import { useMenuStore } from "~/store/menu";
 import { useAvatarStore } from "~/store/avatar";
+import { useMobileMenuStore } from "~/store/mobileMenu";
 
 export default defineNuxtRouteMiddleware((to, from) => {
   const userStore = useUserStore();
   const menuStore = useMenuStore();
   const avatarStore = useAvatarStore();
-  avatarStore.close();
+  const mobileMenuStore = useMobileMenuStore();
+  if (avatarStore.isOpen) {
+    avatarStore.close();
+  }
+  if (mobileMenuStore.isOpen) {
+    mobileMenuStore.close();
+  }
   const userToken = useCookie("user-token");
   const token = userToken.value;
   if (!token && openRoutes.includes(to.path)) {

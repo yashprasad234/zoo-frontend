@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useUserStore } from "~/store/user";
 import { useMenuStore } from "~/store/menu";
+import { useAvatarStore } from "~/store/avatar";
+import { useMobileMenuStore } from "~/store/mobileMenu";
 import { userMenu } from "~/data/menu";
 import type { UserType } from "~/types/user";
-import { useAvatarStore } from "~/store/avatar";
 
 const userState = useUserStore();
 const menuState = useMenuStore();
 const avatarState = useAvatarStore();
-const isOpen = ref(false);
-const hamburgerMenuOpen = ref(false);
+const mobileMenuState = useMobileMenuStore();
 const openUserMenu = ref(false);
 const userToken = useCookie("user-token");
 
@@ -73,29 +73,21 @@ onBeforeMount(() => {
       <!-- Menu open close buttons -->
       <div>
         <div
-          v-if="!hamburgerMenuOpen"
+          v-if="!mobileMenuState.isOpen"
           class="cursor-pointer"
-          @click="
-            () => {
-              hamburgerMenuOpen = true;
-            }
-          "
+          @click="mobileMenuState.open()"
         >
           <IconHamburger />
         </div>
         <div
-          v-if="hamburgerMenuOpen"
+          v-if="mobileMenuState.isOpen"
           class="cursor-pointer mb-2"
-          @click="
-            () => {
-              hamburgerMenuOpen = false;
-            }
-          "
+          @click="mobileMenuState.close()"
         >
           <IconClose />
         </div>
       </div>
-      <div v-if="hamburgerMenuOpen" class="flex flex-col items-start">
+      <div v-if="mobileMenuState.isOpen" class="flex flex-col items-start">
         <div
           v-for="([name, href], index) in menuState.menu"
           class="flex justify-between gap-16"
